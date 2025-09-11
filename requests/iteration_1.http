@@ -1,0 +1,148 @@
+### Get auth token
+### Admin Token Authorization:
+### Admin Basic YWRtaW46YWRtaW4=
+### Newly created customer(Kate19981/Kate19981#) Basic S2F0ZTE5OTgxOkthdGUxOTk4MSM=
+POST http://localhost:4111/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "username": "Kate19981",
+    "password": "Kate19981#"
+}
+
+### Positive test Admin user can create new user with correct data
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "Kate19981",
+  "password": "Kate19981#",
+  "role": "USER"
+}
+
+### Negative test: test Admin can't create new user with blank username
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "   ",
+  "password": "{{$random.uuid}}+Aa!",
+  "role": "USER"
+}
+
+### Negative test: Admin can't create new user with username contains restricted characters $%^*()@#
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "$%^*()@#",
+  "password": "{{$random.uuid}}+Aa!",
+  "role": "USER"
+}
+
+### Negative test: Admin can't create new user with username 2 or 16 characters
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "ab",
+  "password": "{{$random.uuid}}+Aa!",
+  "role": "USER"
+}
+
+### Negative test: Admin can't create new user with username 2 or 16 characters
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "abcdefhgklmnaqww",
+  "password": "{{$random.uuid}}+Aa!",
+  "role": "USER"
+}
+
+### Negative test create user that already exists
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "kate1998",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}
+
+### Positive test: Authorized user can create an account
+POST http://localhost:4111/api/v1/accounts
+Content-Type: application/json
+Authorization: Basic S2F0ZTE5OTgxOkthdGUxOTk4MSM=
+
+### Positive test: Authorized user can check his own accounts
+GET http://localhost:4111/api/v1/customer/accounts
+Content-Type: application/json
+Authorization: Basic S2F0ZTE5OTgxOkthdGUxOTk4MSM=
+
+### Negative test: Admin can't create new user with blank password
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "{{$random.uuid}}",
+  "password": " ",
+  "role": "USER"
+}
+
+### Negative test: Admin can't create new user with password < 8 characters
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "{{$random.uuid}}",
+  "password": "1234567",
+  "role": "USER"
+}
+
+### Negative test: Admin can't create new user with password < 8 characters
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "{{$random.uuid}}",
+  "password": "1234567",
+  "role": "USER"
+}
+
+### Negative test: Admin can't create new user with password without digits
+### Negative test: Admin cannot create new user without one lower character
+### Negative test: Admin cannot create new user with password without one upper case character
+### Negative test: Admin cannot create new user with password without special character
+### Negative test: Admin cannot create new user with password without one space
+
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "{{$random.uuid}}",
+  "password": "1234567",
+  "role": "USER"
+}
+
+
+### Negative test: Admin can't create new user with role out from list {"ADMIN", "USER"}
+POST http://localhost:4111/api/v1/admin/users
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+
+{
+  "username": "{{$random.uuid}}",
+  "password": "{{$random.uuid}}",
+  "role": "EDITOR"
+}
