@@ -1,62 +1,32 @@
-import io.restassured.http.ContentType;
-import org.apache.http.HttpStatus;
-import org.hamcrest.Matchers;
+import generators.RandomData;
+import models.CreateUserRequest;
+import models.UserRole;
 import org.junit.jupiter.api.Test;
+import requests.AdminCreateUserRequester;
+import requests.CreateAccountRequester;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
-import static io.restassured.RestAssured.given;
-
-public class CreateAccountTest {
+public class CreateAccountTest extends BaseTest {
 
     @Test
     public void userCanCreateAccountTest() {
-        //let's create user firstly
-        given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .when()
-                .header("Authorization", "Basic YWRtaW46YWRtaW4=")
-                .body("""
-                        {
-                            "username": "kate20001111",
-                            "password": "Kate2000#!",
-                            "role": "USER"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/admin/users")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_CREATED)
-                .body("username", Matchers.equalTo("kate20001111"))
-                .body("password", Matchers.not(Matchers.equalTo("Kate2000#!")))
-                .body("role", Matchers.equalTo("USER"));
+        //user data
+        CreateUserRequest userRequest = CreateUserRequest.builder()
+                .username(RandomData.getUsername())
+                .password(RandomData.getPassword())
+                .role(UserRole.USER.toString())
+                .build();
 
+        new AdminCreateUserRequester(
+                RequestSpecs.adminSpec(),
+                ResponseSpecs.entityWasCreated()
+        ).post(userRequest);
 
-        //extract header Authorization to variable
-        String authToken = given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .when()
-                .body("""
-                        {
-                            "username": "kate20001111",
-                            "password": "Kate2000#!"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/auth/login")
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .extract()
-                .header("Authorization");
-
-        //creating account for user
-        given()
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON)
-                .header("Authorization", authToken)
-                .post("http://localhost:4111/api/v1/accounts")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_CREATED);
+        //creating account for newly generated user
+        new CreateAccountRequester(
+                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
+                ResponseSpecs.entityWasCreated()
+        ).post(null);
     }
 }
