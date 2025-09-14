@@ -1,9 +1,9 @@
-import generators.RandomData;
 import models.CreateUserRequest;
-import models.UserRole;
+import models.CreateUserResponse;
 import org.junit.jupiter.api.Test;
-import requests.AdminCreateUserRequester;
-import requests.CreateAccountRequester;
+import requests.skelethon.EndPoint;
+import requests.skelethon.requests.ValidatedCrudRequester;
+import requests.steps.AdminSteps;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -11,22 +11,14 @@ public class CreateAccountTest extends BaseTest {
 
     @Test
     public void userCanCreateAccountTest() {
-        //user data
-        CreateUserRequest userRequest = CreateUserRequest.builder()
-                .username(RandomData.getUsername())
-                .password(RandomData.getPassword())
-                .role(UserRole.USER.toString())
-                .build();
-
-        new AdminCreateUserRequester(
-                RequestSpecs.adminSpec(),
-                ResponseSpecs.entityWasCreated()
-        ).post(userRequest);
+        //create and generate user
+        CreateUserRequest userResponse = AdminSteps.createUser();
 
         //creating account for newly generated user
-        new CreateAccountRequester(
-                RequestSpecs.authAsUser(userRequest.getUsername(), userRequest.getPassword()),
-                ResponseSpecs.entityWasCreated()
+        new ValidatedCrudRequester<CreateUserResponse>(
+                RequestSpecs.authAsUser(userResponse.getUsername(), userResponse.getPassword()),
+                ResponseSpecs.entityWasCreated(),
+                EndPoint.ACCOUNTS
         ).post(null);
     }
 }

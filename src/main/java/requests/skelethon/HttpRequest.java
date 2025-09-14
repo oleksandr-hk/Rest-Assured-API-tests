@@ -1,20 +1,16 @@
-package requests;
+package requests.skelethon;
 
-import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import models.BaseModel;
 
-public abstract class Request<T extends BaseModel> {
+public abstract class HttpRequest {
     protected RequestSpecification requestSpecification;
     protected ResponseSpecification responseSpecification;
+    protected EndPoint endPoint;
 
-    public Request(RequestSpecification requestSpecification, ResponseSpecification responseSpecification) {
+    public HttpRequest(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, EndPoint endPoint) {
         this.requestSpecification = requestSpecification;
         this.responseSpecification = responseSpecification;
+        this.endPoint = endPoint;
     }
-
-    public abstract ValidatableResponse post(T model);
-
-
 }
