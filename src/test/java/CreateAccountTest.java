@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.JsonSerializable;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -5,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class CreateAccountTest {
+public class CreateAccountTest extends BaseTest {
 
     @Test
     public void userCanCreateAccountTest() {

@@ -11,15 +11,8 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-public class LoginUserTest {
+public class LoginUserTest extends BaseTest {
 
-    @BeforeAll
-    public static void setupRestAssured() {
-        RestAssured.filters(List.of(
-                new RequestLoggingFilter(),
-                new ResponseLoggingFilter()
-        ));
-    }
 
     @Test
     public void adminCanGenerateAuthTokenTest() {
@@ -38,8 +31,6 @@ public class LoginUserTest {
                 .assertThat()
                 .statusCode(200)
                 .header("Authorization", "Basic YWRtaW46YWRtaW4=");
-
-
     }
 
     @Test
@@ -79,8 +70,6 @@ public class LoginUserTest {
                 .assertThat()
                 .statusCode(200)
                 .header("Authorization", Matchers.notNullValue());
-
-
     }
 
 }
