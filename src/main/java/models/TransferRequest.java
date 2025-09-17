@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TransferRequest {
-
     private int senderAccountId;
     private int receiverAccountId;
     private double amount;
-
 }

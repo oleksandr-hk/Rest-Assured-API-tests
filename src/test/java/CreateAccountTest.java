@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.databind.JsonSerializable;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;

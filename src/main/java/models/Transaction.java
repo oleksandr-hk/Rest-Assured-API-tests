@@ -19,5 +19,4 @@ public class Transaction {
     @JsonIgnore
     private ZonedDateTime timestamp;
     private int relatedAccountId;
-
 }

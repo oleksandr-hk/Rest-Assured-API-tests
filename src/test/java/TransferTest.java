@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import services.CustomerService;
+import services.TransactionService;
 
 import java.util.stream.Stream;
 
@@ -17,6 +19,9 @@ public class TransferTest {
 
     @Test
     public void userCanTransferMoneyOnHisOwnAccountTest() {
+        int deposit = 25;
+        int transferAmount = 10;
+        int leftFirstOnAccount = 15;
         //create user with randomly generated data
         String username = RandomStringUtils.randomAlphabetic(10);
         String password = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
@@ -53,7 +58,7 @@ public class TransferTest {
                 .post("http://localhost:4111/api/v1/auth/login")
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .header("Authorization");
 
@@ -84,7 +89,7 @@ public class TransferTest {
         CreateDepositRequest createDepositRequest = new CreateDepositRequest();
         createDepositRequest.setId(firstAccountResponse.getId());
         createDepositRequest.setAccountNumber(firstAccountResponse.getAccountNumber());
-        createDepositRequest.setBalance(100);
+        createDepositRequest.setBalance(deposit);
 
         //deposit money on first created account
         CreateAccountResponse depositResponse = given()
@@ -107,7 +112,7 @@ public class TransferTest {
         TransferRequest transferRequest = new TransferRequest();
         transferRequest.setSenderAccountId(firstAccountResponse.getId());
         transferRequest.setReceiverAccountId(secondAccountResponse.getId());
-        transferRequest.setAmount(createDepositRequest.getBalance());
+        transferRequest.setAmount(transferAmount);
 
         TransferResponse transferResponse = given()
                 .accept(ContentType.JSON)
@@ -122,61 +127,127 @@ public class TransferTest {
                 .extract()
                 .as(TransferResponse.class);
 
+        //check first account balance
+        Assertions.assertEquals(leftFirstOnAccount, CustomerService.getCustomerAccountById(
+                        createUserRequest.getUsername(),
+                        createUserRequest.getPassword(),
+                        firstAccountResponse.getId()
+                ).get()
+                .getBalance());
+
+        //check first account transactions list
+        Assertions.assertTrue(TransactionService.getAccountTransactions(
+                        createUserRequest.getUsername(),
+                        createUserRequest.getPassword(),
+                        firstAccountResponse.getId()
+                ).stream().anyMatch(transaction -> {
+                    return  transaction.getRelatedAccountId() == secondAccountResponse.getId()
+                            && transaction.getAmount() == transferAmount;
+                }));
         //check second account balance
-        Assertions.assertEquals(transferRequest.getAmount(), transferResponse.getAmount());
-        //check that first account balance equal to 0
-        Assertions.assertEquals(0, firstAccountResponse.getBalance());
-        Assertions.assertEquals(transferResponse.getReceiverAccountId(), secondAccountResponse.getId());
-        Assertions.assertEquals(transferResponse.getSenderAccountId(), firstAccountResponse.getId());
+        Assertions.assertEquals(transferAmount, CustomerService.getCustomerAccountById(createUserRequest.getUsername(), createUserRequest.getPassword(), secondAccountResponse.getId())
+                .get()
+                .getBalance());
+        //check second account transactions list
+        Assertions.assertTrue(TransactionService.getAccountTransactions(
+                createUserRequest.getUsername(),
+                createUserRequest.getPassword(),
+                secondAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == firstAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        }));
     }
 
     @Test
     public void userCanDepositMoneyOnAnotherUserAccountTest() {
+        int deposit = 25;
+        double transferAmount = 5.50;
+        double leftOnFirstAccount = 19.50;
         //create user with randomly generated data
-        String username = RandomStringUtils.randomAlphabetic(10);
-        String password = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
-        CreateUserRequest createUserRequest = new CreateUserRequest();
-        createUserRequest.setUsername(username);
-        createUserRequest.setPassword(password);
-        createUserRequest.setRole("USER");
-        CreateUserResponse createdUser = given()
+        String firstUserUsername = RandomStringUtils.randomAlphabetic(10);
+        String firstUserUserPassword = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
+        CreateUserRequest firstUserRequest = new CreateUserRequest();
+        firstUserRequest.setUsername(firstUserUsername);
+        firstUserRequest.setPassword(firstUserUserPassword);
+        firstUserRequest.setRole("USER");
+
+        String secondUserUsername = RandomStringUtils.randomAlphabetic(10);
+        String secondUserUserPassword = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
+        CreateUserRequest secondUserRequest = new CreateUserRequest();
+        secondUserRequest.setUsername(secondUserUsername);
+        secondUserRequest.setPassword(secondUserUserPassword);
+        secondUserRequest.setRole("USER");
+
+        //create first user
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
                 .header("Authorization", "Basic YWRtaW46YWRtaW4=")
-                .body(createUserRequest)
+                .body(firstUserRequest)
                 .post("http://localhost:4111/api/v1/admin/users")
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_CREATED)
-                .body("username", Matchers.equalTo(username))
-                .body("password", Matchers.not(Matchers.equalTo(password)))
-                .body("role", Matchers.equalTo("USER"))
-                .extract()
-                .response()
-                .as(CreateUserResponse.class);
+                .body("username", Matchers.equalTo(firstUserUsername))
+                .body("password", Matchers.not(Matchers.equalTo(firstUserUserPassword)))
+                .body("role", Matchers.equalTo("USER"));
 
-        LoginUserRequest loginUserRequest = new LoginUserRequest();
-        loginUserRequest.setUsername(username);
-        loginUserRequest.setPassword(password);
-        //extract header Authorization to variable
-        String authToken = given()
+        //create second user
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
-                .body(loginUserRequest)
+                .header("Authorization", "Basic YWRtaW46YWRtaW4=")
+                .body(secondUserRequest)
+                .post("http://localhost:4111/api/v1/admin/users")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_CREATED)
+                .body("username", Matchers.equalTo(secondUserUsername))
+                .body("password", Matchers.not(Matchers.equalTo(secondUserUserPassword)))
+                .body("role", Matchers.equalTo("USER"));
+
+        //generateAuth token for first user
+        LoginUserRequest loginFirstUserRequest = new LoginUserRequest();
+        loginFirstUserRequest.setUsername(firstUserUsername);
+        loginFirstUserRequest.setPassword(firstUserUserPassword);
+        //extract header Authorization to variable
+        String firstUserAuthToken = given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .when()
+                .body(loginFirstUserRequest)
                 .post("http://localhost:4111/api/v1/auth/login")
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .header("Authorization");
 
-        //create first account for user
-        CreateAccountResponse firstAccountResponse = given()
+        //generate auth token for second user
+        LoginUserRequest loginSecondUserRequest = new LoginUserRequest();
+        loginSecondUserRequest.setUsername(secondUserUsername);
+        loginSecondUserRequest.setPassword(secondUserUserPassword);
+        //extract header Authorization to variable
+        String secondUserAuthToken = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .header("Authorization", authToken)
+                .when()
+                .body(loginSecondUserRequest)
+                .post("http://localhost:4111/api/v1/auth/login")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .header("Authorization");
+
+        //create account for first user
+        CreateAccountResponse createFirstAccountResponse = given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .header("Authorization", firstUserAuthToken)
                 .post("http://localhost:4111/api/v1/accounts")
                 .then()
                 .assertThat()
@@ -184,11 +255,11 @@ public class TransferTest {
                 .extract()
                 .as(CreateAccountResponse.class);
 
-        //create second account for user
-        CreateAccountResponse secondAccountResponse = given()
+        //create account for second user
+        CreateAccountResponse createSecondAccountResponse = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .header("Authorization", authToken)
+                .header("Authorization", secondUserAuthToken)
                 .post("http://localhost:4111/api/v1/accounts")
                 .then()
                 .assertThat()
@@ -196,16 +267,17 @@ public class TransferTest {
                 .extract()
                 .as(CreateAccountResponse.class);
 
+        //deposit money on first user account
         CreateDepositRequest createDepositRequest = new CreateDepositRequest();
-        createDepositRequest.setId(firstAccountResponse.getId());
-        createDepositRequest.setAccountNumber(firstAccountResponse.getAccountNumber());
-        createDepositRequest.setBalance(100);
+        createDepositRequest.setId(createFirstAccountResponse.getId());
+        createDepositRequest.setAccountNumber(createFirstAccountResponse.getAccountNumber());
+        createDepositRequest.setBalance(deposit);
 
-        //deposit money on first created account
+        //deposit money on newly created account
         CreateAccountResponse depositResponse = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .header("Authorization", authToken)
+                .header("Authorization",  firstUserAuthToken)
                 .when()
                 .body(createDepositRequest)
                 .post("http://localhost:4111/api/v1/accounts/deposit")
@@ -215,19 +287,16 @@ public class TransferTest {
                 .extract()
                 .as(CreateAccountResponse.class);
 
-        //check that user balance equal to new one
-        Assertions.assertEquals(createDepositRequest.getBalance(), depositResponse.getBalance());
-
         //transfer money from first account to second one
         TransferRequest transferRequest = new TransferRequest();
-        transferRequest.setSenderAccountId(firstAccountResponse.getId());
-        transferRequest.setReceiverAccountId(secondAccountResponse.getId());
-        transferRequest.setAmount(createDepositRequest.getBalance());
+        transferRequest.setSenderAccountId(createFirstAccountResponse.getId());
+        transferRequest.setReceiverAccountId(createSecondAccountResponse.getId());
+        transferRequest.setAmount(transferAmount);
 
-        TransferResponse transferResponse = given()
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .header("Authorization", authToken)
+                .header("Authorization", firstUserAuthToken)
                 .when()
                 .body(transferRequest)
                 .post("http://localhost:4111/api/v1/accounts/transfer")
@@ -237,12 +306,38 @@ public class TransferTest {
                 .extract()
                 .as(TransferResponse.class);
 
+        //check first account balance
+        Assertions.assertEquals(leftOnFirstAccount, CustomerService.getCustomerAccountById(
+                        firstUserRequest.getUsername(),
+                        firstUserRequest.getPassword(),
+                        createFirstAccountResponse.getId())
+                .get()
+                .getBalance());
+        //check first account transactions list
+        Assertions.assertTrue(TransactionService.getAccountTransactions(
+                firstUserRequest.getUsername(),
+                firstUserRequest.getPassword(),
+                createFirstAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == createSecondAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        }));
         //check second account balance
-        Assertions.assertEquals(transferResponse.getAmount(), transferRequest.getAmount());
-        //check that first account balance equal to 0
-        Assertions.assertEquals(firstAccountResponse.getBalance(),0);
-        Assertions.assertEquals(secondAccountResponse.getId(), transferResponse.getReceiverAccountId());
-        Assertions.assertEquals(firstAccountResponse.getId(), transferResponse.getSenderAccountId());
+        Assertions.assertEquals(transferAmount, CustomerService.getCustomerAccountById(
+                        secondUserRequest.getUsername(),
+                        secondUserRequest.getPassword(),
+                        createSecondAccountResponse.getId())
+                .get()
+                .getBalance());
+        //check second account transactions list
+        Assertions.assertTrue(TransactionService.getAccountTransactions(
+                secondUserRequest.getUsername(),
+                secondUserRequest.getPassword(),
+                createSecondAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == createFirstAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        }));
     }
 
     public static Stream<Arguments> transferInvalidData() {
@@ -264,15 +359,8 @@ public class TransferTest {
         firstUserRequest.setPassword(firstUserUserPassword);
         firstUserRequest.setRole("USER");
 
-        String secondUserUsername = RandomStringUtils.randomAlphabetic(10);
-        String secondUserUserPassword = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
-        CreateUserRequest secondUserRequest = new CreateUserRequest();
-        secondUserRequest.setUsername(secondUserUsername);
-        secondUserRequest.setPassword(secondUserUserPassword);
-        secondUserRequest.setRole("USER");
-
         //create first user
-         given()
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -284,10 +372,7 @@ public class TransferTest {
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("username", Matchers.equalTo(firstUserUsername))
                 .body("password", Matchers.not(Matchers.equalTo(firstUserUserPassword)))
-                .body("role", Matchers.equalTo("USER"))
-                .extract()
-                .response()
-                .as(CreateUserResponse.class);
+                .body("role", Matchers.equalTo("USER"));
 
         //generateAuth token for user
         LoginUserRequest loginFirstUserRequest = new LoginUserRequest();
@@ -302,7 +387,7 @@ public class TransferTest {
                 .post("http://localhost:4111/api/v1/auth/login")
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .header("Authorization");
 
@@ -366,6 +451,29 @@ public class TransferTest {
                 .assertThat()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo(errorMessage));
+
+        //check if first account balance = deposit
+        Assertions.assertEquals(amountOfMoneyToDeposit, CustomerService.getCustomerAccountById(
+                firstUserRequest.getUsername(),
+                firstUserRequest.getPassword(),
+                createFirstAccountResponse.getId()
+                ).get()
+                .getBalance());
+
+        //second account transactions list should be empty
+        Assertions.assertTrue(TransactionService.getAccountTransactions(
+                firstUserRequest.getUsername(),
+                firstUserRequest.getPassword(),
+                createSecondAccountResponse.getId()
+                )
+                .isEmpty());
+        //check if second account balance = 0
+        Assertions.assertEquals(0, CustomerService.getCustomerAccountById(
+                        firstUserRequest.getUsername(),
+                        firstUserRequest.getPassword(),
+                        createSecondAccountResponse.getId()
+                ).get()
+                .getBalance());
     }
 
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import services.CustomerService;
 
 import java.util.stream.Stream;
 
@@ -24,7 +25,7 @@ public class UpdateCustomerProfileTest extends BaseTest {
         createUserRequest.setUsername(username);
         createUserRequest.setPassword(password);
         createUserRequest.setRole("USER");
-        CreateUserResponse createdUser = given()
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -36,10 +37,7 @@ public class UpdateCustomerProfileTest extends BaseTest {
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("username", Matchers.equalTo(username))
                 .body("password", Matchers.not(Matchers.equalTo(password)))
-                .body("role", Matchers.equalTo("USER"))
-                .extract()
-                .response()
-                .as(CreateUserResponse.class);
+                .body("role", Matchers.equalTo("USER"));
 
         LoginUserRequest loginUserRequest = new LoginUserRequest();
         loginUserRequest.setUsername(username);
@@ -61,7 +59,7 @@ public class UpdateCustomerProfileTest extends BaseTest {
         String newCustomerName = username + " " + username;
         updateCustomerNameRequest.setName(newCustomerName);
         //update customer name
-        UpdateCustomerResponse updateCustomerResponse = given()
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -70,13 +68,13 @@ public class UpdateCustomerProfileTest extends BaseTest {
                 .put("http://localhost:4111/api/v1/customer/profile")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.SC_OK)
-                .extract()
-                .as(UpdateCustomerResponse.class);
+                .statusCode(HttpStatus.SC_OK);
 
-        //check that new username at response equal to expected one
-        Assertions.assertEquals(newCustomerName, updateCustomerResponse.getCustomer().getName());
-        Assertions.assertEquals( "Profile updated successfully", updateCustomerResponse.getMessage());
+        //check that customer name was updated
+        CreateUserResponse customerWithUpdateName = CustomerService.getCustomers()
+                .stream()
+                .filter(customer -> customer.getName() != null && customer.getName().equals(newCustomerName))
+                .findFirst().orElseThrow(() -> new RuntimeException("Customer with updated name wasn't found"));
     }
 
     public static Stream<Arguments> userNameInvalidData() {
@@ -97,7 +95,7 @@ public class UpdateCustomerProfileTest extends BaseTest {
         createUserRequest.setUsername(username);
         createUserRequest.setPassword(password);
         createUserRequest.setRole("USER");
-        given()
+        CreateUserResponse createUserResponse = given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -145,5 +143,9 @@ public class UpdateCustomerProfileTest extends BaseTest {
                 .assertThat()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo(errorMessage));
+
+        //check that user name wasn't updated
+        Assertions.assertNull(CustomerService.getCustomerById(createUserResponse.getId()).get().getName());
+
     }
 }

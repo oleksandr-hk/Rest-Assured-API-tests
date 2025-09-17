@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import services.CustomerService;
+import services.TransactionService;
 
 import java.util.stream.Stream;
 
@@ -17,6 +19,7 @@ public class DepositTest extends BaseTest {
 
     @Test
     public void userCanDepositMoneyOnHisOwnAccountTest() {
+        double deposit = 10.5;
         //create user with randomly generated data
         String username = RandomStringUtils.randomAlphabetic(10);
         String password = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
@@ -72,7 +75,7 @@ public class DepositTest extends BaseTest {
         CreateDepositRequest createDepositRequest = new CreateDepositRequest();
         createDepositRequest.setId(createAccountResponse.getId());
         createDepositRequest.setAccountNumber(createAccountResponse.getAccountNumber());
-        createDepositRequest.setBalance(100);
+        createDepositRequest.setBalance(deposit);
 
         //deposit money on newly created account
         CreateAccountResponse depositResponse = given()
@@ -84,17 +87,22 @@ public class DepositTest extends BaseTest {
                 .post("http://localhost:4111/api/v1/accounts/deposit")
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .as(CreateAccountResponse.class);
 
         //check that user balance equal to new one
-        Assertions.assertEquals(createDepositRequest.getBalance(), depositResponse.getBalance());
+        CreateAccountResponse createdAccount = CustomerService.getCustomerAccountById(
+                    createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()
+                )
+                .get();
+        //check if newly created user account deposit balance equal to expected
+        Assertions.assertEquals(deposit, createdAccount.getBalance());
 
         //check that transactions contains required record
-        Assertions.assertTrue(depositResponse.getTransactions().stream()
+        Assertions.assertTrue(TransactionService.getAccountTransactions(createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()).stream()
                 .anyMatch(transaction -> {
-                    return  transaction.getAmount() == createDepositRequest.getBalance() &&
+                    return  transaction.getAmount() == deposit &&
                             transaction.getRelatedAccountId() == createAccountResponse.getId();
                 }));
     }
@@ -115,8 +123,7 @@ public class DepositTest extends BaseTest {
         CreateUserRequest createUserRequest = new CreateUserRequest();
         createUserRequest.setUsername(username);
         createUserRequest.setPassword(password);
-        createUserRequest.setRole("USER");
-        given()
+        createUserRequest.setRole("USER");given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -128,10 +135,7 @@ public class DepositTest extends BaseTest {
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("username", Matchers.equalTo(username))
                 .body("password", Matchers.not(Matchers.equalTo(password)))
-                .body("role", Matchers.equalTo("USER"))
-                .extract()
-                .response()
-                .as(CreateUserResponse.class);
+                .body("role", Matchers.equalTo("USER"));
 
         LoginUserRequest loginUserRequest = new LoginUserRequest();
         loginUserRequest.setUsername(username);
@@ -178,10 +182,16 @@ public class DepositTest extends BaseTest {
                 .assertThat()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo(errorMessage));
+
+        //account transactions list should be empty
+        Assertions.assertTrue(TransactionService.getAccountTransactions(createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()).isEmpty());
+        //check if account balance = 0
+        Assertions.assertEquals(0, CustomerService.getCustomerAccountById(createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()).get().getBalance());
     }
 
     @Test
     public void userCantDepositMoneyOnDifferentUserAccountTest() {
+        int deposit = 10;
         //create user with randomly generated data
         String firstUserUsername = RandomStringUtils.randomAlphabetic(10);
         String firstUserUserPassword = "A" + RandomStringUtils.randomAlphabetic(5) + "7#^";
@@ -198,7 +208,7 @@ public class DepositTest extends BaseTest {
         secondUserRequest.setRole("USER");
 
         //create first user
-        CreateUserResponse firstCreatedUser = given()
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -210,13 +220,11 @@ public class DepositTest extends BaseTest {
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("username", Matchers.equalTo(firstUserUsername))
                 .body("password", Matchers.not(Matchers.equalTo(firstUserUserPassword)))
-                .body("role", Matchers.equalTo("USER"))
-                .extract()
-                .response()
-                .as(CreateUserResponse.class);
+                .body("role", Matchers.equalTo("USER"));
+
 
         //create second user
-        CreateUserResponse secondCreatedUser = given()
+        given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
                 .when()
@@ -228,10 +236,7 @@ public class DepositTest extends BaseTest {
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("username", Matchers.equalTo(secondUserUsername))
                 .body("password", Matchers.not(Matchers.equalTo(secondUserUserPassword)))
-                .body("role", Matchers.equalTo("USER"))
-                .extract()
-                .response()
-                .as(CreateUserResponse.class);
+                .body("role", Matchers.equalTo("USER"));
 
         //generateAuth token for first user
         LoginUserRequest loginFirstUserRequest = new LoginUserRequest();
@@ -246,7 +251,7 @@ public class DepositTest extends BaseTest {
                 .post("http://localhost:4111/api/v1/auth/login")
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .header("Authorization");
 
@@ -263,7 +268,7 @@ public class DepositTest extends BaseTest {
                 .post("http://localhost:4111/api/v1/auth/login")
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .header("Authorization");
 
@@ -295,7 +300,7 @@ public class DepositTest extends BaseTest {
         CreateDepositRequest createDepositRequest = new CreateDepositRequest();
         createDepositRequest.setId(createSecondAccountResponse.getId());
         createDepositRequest.setAccountNumber(createSecondAccountResponse.getAccountNumber());
-        createDepositRequest.setBalance(1000);
+        createDepositRequest.setBalance(deposit);
 
         //deposit money on newly created account
         given()
@@ -308,5 +313,12 @@ public class DepositTest extends BaseTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_FORBIDDEN);
+
+        //account transactions list should be empty for first account
+        Assertions.assertTrue(TransactionService.getAccountTransactions(firstUserRequest.getUsername(), firstUserRequest.getPassword(), createFirstAccountResponse.getId()).isEmpty());
+        //account transactions list should be empty for second account
+        Assertions.assertTrue(TransactionService.getAccountTransactions(secondUserRequest.getUsername(), secondUserRequest.getPassword(), createSecondAccountResponse.getId()).isEmpty());
+        //check if second user account balance equal to o
+        Assertions.assertEquals(0, CustomerService.getCustomerAccountById(secondUserRequest.getUsername(), secondUserRequest.getPassword(), createSecondAccountResponse.getId()).get().getBalance());
     }
 }
