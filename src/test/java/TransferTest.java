@@ -8,6 +8,8 @@ import requests.AdminCreateUserRequester;
 import requests.CreateAccountRequester;
 import requests.DepositRequester;
 import requests.TransferRequester;
+import services.CustomerService;
+import services.TransactionService;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -17,7 +19,9 @@ public class TransferTest extends BaseTest{
 
     @Test
     public void userCanTransferMoneyOnHisOwnAccountTest() {
-        final double deposit = 100.0;
+        double deposit = 25.0;
+        double transferAmount = 10.0;
+        double leftFirstOnAccount = 15.0;
         //create user with randomly generated data
         CreateUserRequest createUserRequest = CreateUserRequest.builder()
                 .username(RandomData.getUsername())
@@ -34,14 +38,14 @@ public class TransferTest extends BaseTest{
                 .as(CreateUserResponse.class);
 
         //create first account for user
-        CreateAccountResponse firstAccount = new CreateAccountRequester(
+        CreateAccountResponse firstAccountResponse = new CreateAccountRequester(
                 RequestSpecs.authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword()),
                 ResponseSpecs.entityWasCreated()
         ).post(null).extract()
                 .as(CreateAccountResponse.class);
 
         //create second account for user
-        CreateAccountResponse secondAccount = new CreateAccountRequester(
+        CreateAccountResponse secondAccountResponse = new CreateAccountRequester(
                 RequestSpecs.authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword()),
                 ResponseSpecs.entityWasCreated()
         ).post(null).extract()
@@ -52,8 +56,8 @@ public class TransferTest extends BaseTest{
                 RequestSpecs.authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword()),
                 ResponseSpecs.requestReturnsOk()
         ).post(CreateDepositRequest.builder()
-                .id(firstAccount.getId())
-                .accountNumber(firstAccount.getAccountNumber())
+                .id(firstAccountResponse.getId())
+                .accountNumber(firstAccountResponse.getAccountNumber())
                 .balance(deposit)
                 .build()
         ).extract().as(CreateAccountResponse.class);
@@ -62,27 +66,53 @@ public class TransferTest extends BaseTest{
         softly.assertThat(deposit).isEqualTo(depositResponse.getBalance());
 
         //transfer money from first account to second one
-        TransferResponse transferResponse = new TransferRequester(
+        new TransferRequester(
                 RequestSpecs.authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword()),
                 ResponseSpecs.requestReturnsOk()
         ).post(new TransferRequest(
-                firstAccount.getId(),
-                secondAccount.getId(),
-                deposit
-        )).extract().as(TransferResponse.class);
+                firstAccountResponse.getId(),
+                secondAccountResponse.getId(),
+                transferAmount
+        ));
 
+        //check first account balance
+        softly.assertThat(leftFirstOnAccount).isEqualTo(
+                        CustomerService.getCustomerAccountById(
+                        createUserRequest.getUsername(),
+                        createUserRequest.getPassword(),
+                        firstAccountResponse.getId()
+                ).get()
+                .getBalance());
+
+        //check first account transactions list
+        softly.assertThat(TransactionService.getAccountTransactions(
+                createUserRequest.getUsername(),
+                createUserRequest.getPassword(),
+                firstAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == secondAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        })).isEqualTo(true);
         //check second account balance
-        softly.assertThat(deposit).isEqualTo(transferResponse.getAmount());
-        //check that first account balance equal to 0
-        softly.assertThat(0.0).isEqualTo( firstAccount.getBalance());
-        //checks accounts id from transfer response
-        softly.assertThat(transferResponse.getSenderAccountId()).isEqualTo(firstAccount.getId());
-        softly.assertThat(transferResponse.getReceiverAccountId()).isEqualTo(secondAccount.getId());
+        softly.assertThat(transferAmount).isEqualTo(CustomerService.getCustomerAccountById(createUserRequest.getUsername(), createUserRequest.getPassword(), secondAccountResponse.getId())
+                .get()
+                .getBalance());
+        //check second account transactions list
+        softly.assertThat(TransactionService.getAccountTransactions(
+                createUserRequest.getUsername(),
+                createUserRequest.getPassword(),
+                secondAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == firstAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        })).isEqualTo(true);
     }
 
     @Test
     public void userCanTransferMoneyOnAnotherUserAccountTest() {
-        final double deposit = 100.0;
+        int deposit = 25;
+        double transferAmount = 5.50;
+        double leftOnFirstAccount = 19.50;
         //create user with randomly generated data
         CreateUserRequest firstUserRequest = CreateUserRequest.builder()
                 .username(RandomData.getUsername())
@@ -114,46 +144,72 @@ public class TransferTest extends BaseTest{
                 .as(CreateUserResponse.class);
 
         //create account for first user
-        CreateAccountResponse firstUserAccount = new CreateAccountRequester(
+        CreateAccountResponse createFirstAccountResponse = new CreateAccountRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
                 ResponseSpecs.entityWasCreated()
         ).post(null).extract()
                 .as(CreateAccountResponse.class);
 
         //create account for second user
-        CreateAccountResponse secondUserAccount = new CreateAccountRequester(
+        CreateAccountResponse createSecondAccountResponse = new CreateAccountRequester(
                 RequestSpecs.authAsUser(secondUserRequest.getUsername(), secondUserRequest.getPassword()),
                 ResponseSpecs.entityWasCreated()
         ).post(null).extract()
                 .as(CreateAccountResponse.class);
 
         //deposit money on first user account
-        CreateAccountResponse depositResponse = new DepositRequester(
+        new DepositRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
                 ResponseSpecs.requestReturnsOk()
         ).post(CreateDepositRequest.builder()
-                .id(firstUserAccount.getId())
-                .accountNumber(firstUserAccount.getAccountNumber())
+                .id(createFirstAccountResponse.getId())
+                .accountNumber(createFirstAccountResponse.getAccountNumber())
                 .balance(deposit)
                 .build()
-        ).extract()
-                .as(CreateAccountResponse.class);
-        //check that user balance equal to new one
-        softly.assertThat(deposit).isEqualTo(depositResponse.getBalance());
+        );
 
-        TransferResponse transferResponse = new TransferRequester(
+        new TransferRequester(
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
                 ResponseSpecs.requestReturnsOk()
         ).post(TransferRequest.builder()
-                .senderAccountId(firstUserAccount.getId())
-                .receiverAccountId(secondUserAccount.getId())
-                .amount(deposit).build())
-                .extract().as(TransferResponse.class);
+                .senderAccountId(createFirstAccountResponse.getId())
+                .receiverAccountId(createSecondAccountResponse.getId())
+                .amount(transferAmount).build());
 
-        //check transfer response
-        softly.assertThat(deposit).isEqualTo(transferResponse.getAmount());
-        softly.assertThat(secondUserAccount.getId()).isEqualTo(transferResponse.getReceiverAccountId());
-        softly.assertThat(firstUserAccount.getId()).isEqualTo(transferResponse.getSenderAccountId());
+        //check first account balance
+        softly.assertThat(leftOnFirstAccount).isEqualTo(CustomerService.getCustomerAccountById(
+                        firstUserRequest.getUsername(),
+                        firstUserRequest.getPassword(),
+                        createFirstAccountResponse.getId())
+                .get()
+                .getBalance());
+
+        //check first account transactions list
+        softly.assertThat(TransactionService.getAccountTransactions(
+                firstUserRequest.getUsername(),
+                firstUserRequest.getPassword(),
+                createFirstAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == createSecondAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        })).isEqualTo(true);
+        //check second account balance
+        softly.assertThat(transferAmount).isEqualTo(CustomerService.getCustomerAccountById(
+                        secondUserRequest.getUsername(),
+                        secondUserRequest.getPassword(),
+                        createSecondAccountResponse.getId())
+                .get()
+                .getBalance());
+        //check second account transactions list
+        softly.assertThat(TransactionService.getAccountTransactions(
+                secondUserRequest.getUsername(),
+                secondUserRequest.getPassword(),
+                createSecondAccountResponse.getId()
+        ).stream().anyMatch(transaction -> {
+            return  transaction.getRelatedAccountId() == createFirstAccountResponse.getId()
+                    && transaction.getAmount() == transferAmount;
+        })).isEqualTo(true);
+
     }
 
     public static Stream<Arguments> transferInvalidData() {
@@ -219,6 +275,14 @@ public class TransferTest extends BaseTest{
                 secondAccount.getId(),
                 amountMoneyToTransfer
         ));
+
+        //check if second account balance = 0
+        softly.assertThat(0.0).isEqualTo(CustomerService.getCustomerAccountById(
+                        createUserRequest.getUsername(),
+                        createUserRequest.getPassword(),
+                        secondAccount.getId()
+                ).get()
+                .getBalance());
     }
 
 }

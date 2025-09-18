@@ -1,5 +1,6 @@
 import generators.RandomData;
 import models.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -7,6 +8,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import requests.AdminCreateUserRequester;
 import requests.CreateAccountRequester;
 import requests.DepositRequester;
+import services.CustomerService;
+import services.TransactionService;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -51,14 +54,22 @@ public class DepositTest extends BaseTest {
         ).extract().as(CreateAccountResponse.class);
 
         //check that user balance equal to new one
-        softly.assertThat(deposit).isEqualTo(depositResponse.getBalance());
+        CreateAccountResponse createdAccount = CustomerService.getCustomerAccountById(
+                        createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()
+                )
+                .get();
+        //check if newly created user account deposit balance equal to expected
+        Assertions.assertEquals(deposit, createdAccount.getBalance());
 
         //check that transactions contains required record
-        softly.assertThat(depositResponse.getTransactions().stream()
+        Assertions.assertTrue(TransactionService.getAccountTransactions(
+                        createUserRequest.getUsername(),
+                        createUserRequest.getPassword(),
+                        createAccountResponse.getId()).stream()
                 .anyMatch(transaction -> {
-                    return  transaction.getAmount() == depositResponse.getBalance() &&
+                    return  transaction.getAmount() == deposit &&
                             transaction.getRelatedAccountId() == createAccountResponse.getId();
-                })).isEqualTo(true);
+                }));
     }
 
     public static Stream<Arguments> userInvalidData() {
@@ -103,6 +114,10 @@ public class DepositTest extends BaseTest {
                 .balance(wrongBalance)
                 .build()
         );
+        //account transactions list should be empty
+        softly.assertThat(TransactionService.getAccountTransactions(createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()).isEmpty()).isEqualTo(true);
+        //check if account balance = 0
+        softly.assertThat(0.0).isEqualTo(CustomerService.getCustomerAccountById(createUserRequest.getUsername(), createUserRequest.getPassword(), createAccountResponse.getId()).get().getBalance());
     }
 
     @Test
@@ -139,7 +154,7 @@ public class DepositTest extends BaseTest {
                 .as(CreateUserResponse.class);
 
         //create account for second user
-        CreateAccountResponse secondUserAccount = new CreateAccountRequester(
+        CreateAccountResponse createSecondAccountResponse = new CreateAccountRequester(
                 RequestSpecs.authAsUser(secondUserRequest.getUsername(), secondUserRequest.getPassword()),
                 ResponseSpecs.entityWasCreated()
         ).post(null).extract()
@@ -150,10 +165,17 @@ public class DepositTest extends BaseTest {
                 RequestSpecs.authAsUser(firstUserRequest.getUsername(), firstUserRequest.getPassword()),
                 ResponseSpecs.requestForbidden()
         ).post(CreateDepositRequest.builder()
-                .id(secondUserAccount.getId())
-                .accountNumber(secondUserAccount.getAccountNumber())
+                .id(createSecondAccountResponse.getId())
+                .accountNumber(createSecondAccountResponse.getAccountNumber())
                 .balance(deposit)
                 .build()
         );
+        //account transactions list should be empty for first account
+        softly.assertThat(TransactionService.getAccountTransactions(secondUserRequest.getUsername(), secondUserRequest.getPassword(), createSecondAccountResponse.getId()).isEmpty()).isEqualTo(
+                true);
+        //account transactions list should be empty for second account
+        softly.assertThat(TransactionService.getAccountTransactions(secondUserRequest.getUsername(), secondUserRequest.getPassword(), createSecondAccountResponse.getId()).isEmpty()).isEqualTo(true);
+        //check if second user account balance equal to o
+        softly.assertThat(CustomerService.getCustomerAccountById(secondUserRequest.getUsername(), secondUserRequest.getPassword(), createSecondAccountResponse.getId()).get().getBalance()).isEqualTo(0.0);
     }
 }

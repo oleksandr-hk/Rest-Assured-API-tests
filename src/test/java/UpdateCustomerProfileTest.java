@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import requests.AdminCreateUserRequester;
 import requests.UpdateCustomerProfileRequester;
+import services.CustomerService;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
@@ -37,6 +38,7 @@ public class UpdateCustomerProfileTest extends BaseTest {
                 .extract()
                 .as(CreateUserResponse.class);
 
+        //update customer name
         String newCustomerName = RandomData.getUsername() + " " + RandomData.getUsername();
         UpdateCustomerResponse updateCustomerResponse = new UpdateCustomerProfileRequester(
                 RequestSpecs.authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword()),
@@ -44,9 +46,12 @@ public class UpdateCustomerProfileTest extends BaseTest {
         ).put(UpdateCustomerNameRequest.builder().name(newCustomerName).build())
                 .extract()
                 .as(UpdateCustomerResponse.class);
-        //check that new username at response equal to expected one
-        Assertions.assertEquals(newCustomerName, updateCustomerResponse.getCustomer().getName());
-        Assertions.assertEquals( "Profile updated successfully", updateCustomerResponse.getMessage());
+
+        //check that customer name was updated
+        CreateUserResponse customerWithUpdateName = CustomerService.getCustomers()
+                .stream()
+                .filter(customer -> customer.getName() != null && customer.getName().equals(newCustomerName))
+                .findFirst().orElseThrow(() -> new RuntimeException("Customer with updated name wasn't found"));
     }
 
     public static Stream<Arguments> userNameInvalidData() {
@@ -68,7 +73,7 @@ public class UpdateCustomerProfileTest extends BaseTest {
                 .build();
 
         //create randomly generated user
-        new AdminCreateUserRequester(
+        CreateUserResponse createUserResponse = new AdminCreateUserRequester(
                 RequestSpecs.adminSpec(),
                 ResponseSpecs.entityWasCreated()
         ).post(createUserRequest)
@@ -80,5 +85,8 @@ public class UpdateCustomerProfileTest extends BaseTest {
                 RequestSpecs.authAsUser(createUserRequest.getUsername(), createUserRequest.getPassword()),
                 ResponseSpecs.requestReturnsBadResponse(errorMessage)
         ).put(UpdateCustomerNameRequest.builder().name(newName).build());
+
+        //check that user name wasn't updated
+        Assertions.assertNull(CustomerService.getCustomerById(createUserResponse.getId()).get().getName());
     }
 }
