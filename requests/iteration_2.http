@@ -1,0 +1,115 @@
+### Get auth token
+### Admin Token Authorization:
+### Admin Basic YWRtaW46YWRtaW4=
+### Newly created customer(Kate19981/Kate19981#) Basic S2F0ZTE5OTgxOkthdGUxOTk4MSM=
+POST http://localhost:4111/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "username": "kate19988",
+    "password": "verysTRongPassword333$"
+}
+
+### Positive user can deposit money on his own account and transaction present in transaction
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "id": 5,
+  "accountNumber": 5,
+  "balance": 20
+}
+
+### Negative test: User can't deposit 0 or -1 amount of money on deposit
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "id": 5,
+  "accountNumber": 5,
+  "balance": 0
+}
+
+### Negative test: User can't deposit money on another user account
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "id": 2,
+  "accountNumber": 5,
+  "balance": 12
+}
+
+### Positive test: User can transfer money between his own accounts
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "senderAccountId": 5,
+  "receiverAccountId": 6,
+  "amount": 10
+}
+
+### Positive test: User can transfer money on another user account
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "senderAccountId": 5,
+  "receiverAccountId": 4,
+  "amount": 10
+}
+
+### Negative test: User can't transfer 0 account money
+### Negative test: User can't transfer -1 account money
+### Negative test: User can't transfer currentDeposit + 1
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "senderAccountId": 5,
+  "receiverAccountId": 4,
+  "amount": 2000
+}
+
+### Positive test: User can change his name
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "name": ""
+}
+
+### Negative test: User can't change his name with name with single word
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "name": "Kate"
+}
+
+### Negative test: User can't change his name with name with empty word
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "name": " "
+}
+
+### Negative test: User can't change his name with name with special characters
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+Authorization: Basic a2F0ZTE5OTg4OnZlcnlzVFJvbmdQYXNzd29yZDMzMyQ=
+
+{
+  "name": "KAte P!!"
+}

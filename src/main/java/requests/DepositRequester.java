@@ -3,22 +3,23 @@ package requests;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import models.LoginUserRequest;
+import models.CreateDepositRequest;
 
 import static io.restassured.RestAssured.given;
 
-public class LoginUserRequester extends Request<LoginUserRequest> {
+public class DepositRequester extends Request<CreateDepositRequest> {
 
-    public LoginUserRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification) {
+    public DepositRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification) {
         super(requestSpecification, responseSpecification);
     }
 
     @Override
-    public ValidatableResponse post(LoginUserRequest model) {
+    public ValidatableResponse post(CreateDepositRequest model) {
         return given()
                 .spec(requestSpecification)
+                .when()
                 .body(model)
-                .post("/auth/login")
+                .post("/accounts/deposit")
                 .then()
                 .assertThat()
                 .spec(responseSpecification);

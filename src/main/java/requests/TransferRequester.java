@@ -3,22 +3,21 @@ package requests;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import models.LoginUserRequest;
+import models.TransferRequest;
 
 import static io.restassured.RestAssured.given;
 
-public class LoginUserRequester extends Request<LoginUserRequest> {
-
-    public LoginUserRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification) {
+public class TransferRequester extends Request<TransferRequest> {
+    public TransferRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification) {
         super(requestSpecification, responseSpecification);
     }
 
-    @Override
-    public ValidatableResponse post(LoginUserRequest model) {
+    public ValidatableResponse post(TransferRequest model) {
         return given()
                 .spec(requestSpecification)
+                .when()
                 .body(model)
-                .post("/auth/login")
+                .post("/accounts/transfer")
                 .then()
                 .assertThat()
                 .spec(responseSpecification);

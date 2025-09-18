@@ -14,5 +14,4 @@ public class BaseTest {
     public void afterTest() {
         softly.assertAll();
     }
-
 }

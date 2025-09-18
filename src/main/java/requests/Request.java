@@ -14,7 +14,15 @@ public abstract class Request<T extends BaseModel> {
         this.responseSpecification = responseSpecification;
     }
 
-    public abstract ValidatableResponse post(T model);
+    public ValidatableResponse get() {
+        throw new RuntimeException("Not implemented!");
+    }
 
+    public ValidatableResponse post(T model) {
+        throw new RuntimeException("Not implemented!");
+    }
 
+    public ValidatableResponse put(T model) {
+        throw new RuntimeException("Not implemented!");
+    }
 }
