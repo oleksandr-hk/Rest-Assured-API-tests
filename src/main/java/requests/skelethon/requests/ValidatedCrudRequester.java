@@ -6,8 +6,11 @@ import models.BaseModel;
 import requests.skelethon.EndPoint;
 import requests.skelethon.HttpRequest;
 import requests.skelethon.interfaces.CrudEndPointInterface;
+import requests.skelethon.interfaces.ReadableAlInterface;
 
-public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndPointInterface {
+import java.util.List;
+
+public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndPointInterface, ReadableAlInterface {
     private CrudRequester crudRequester;
 
     public ValidatedCrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, EndPoint endPoint) {
@@ -30,8 +33,24 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
     }
 
     @Override
-    public T update(long id, BaseModel model) {
-        return (T) crudRequester.update(id, model)
+    public List<T> get() {
+        return (List<T>) crudRequester.get()
+                .extract()
+                .jsonPath()
+                .getList("", endPoint.getResponseModel());
+    }
+
+    @Override
+    public List<T> getAllById(long id) {
+        return (List<T>) crudRequester.getAllById(id)
+                .extract()
+                .jsonPath()
+                .getList("", endPoint.getResponseModel());
+    }
+
+    @Override
+    public T update(BaseModel model) {
+        return (T) crudRequester.update(model)
                 .extract()
                 .as(endPoint.getResponseModel());
     }

@@ -13,5 +13,4 @@ public class RandomData {
                 RandomStringUtils.randomAlphabetic(5).toLowerCase() +
                 RandomStringUtils.randomNumeric(3)  + "%$";
     }
-
 }

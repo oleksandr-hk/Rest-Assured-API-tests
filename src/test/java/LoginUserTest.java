@@ -21,7 +21,7 @@ public class LoginUserTest extends BaseTest {
                 RequestSpecs.adminSpec(),
                 ResponseSpecs.requestReturnsOk(),
                 EndPoint.LOGIN
-            ).post(loginUserRequest);
+        ).post(loginUserRequest);
     }
 
     @Test
@@ -35,10 +35,10 @@ public class LoginUserTest extends BaseTest {
                 ResponseSpecs.requestReturnsOk(),
                 EndPoint.LOGIN
         ).post(
-                LoginUserRequest.builder()
-                        .username(userResponse.getUsername())
-                        .password(userResponse.getPassword())
-                        .build()
+                        LoginUserRequest.builder()
+                                .username(userResponse.getUsername())
+                                .password(userResponse.getPassword())
+                                .build()
                 ).assertThat()
                 .header("Authorization", Matchers.notNullValue());
     }
