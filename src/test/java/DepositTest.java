@@ -1,3 +1,4 @@
+import generators.RandomData;
 import models.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,13 @@ import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
+import static constants.Constants.*;
+
 public class DepositTest extends BaseTest {
 
     @Test
     public void userCanDepositMoneyOnHisOwnAccountTest() {
-        final double deposit = 100.0;
-        final String type = "DEPOSIT";
+        final double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
         //create user with randomly generated data
         CreateUserRequest createUserRequest = AdminSteps.createUser();
 
@@ -52,20 +54,21 @@ public class DepositTest extends BaseTest {
                 .anyMatch(transaction -> {
                     return  transaction.getAmount() == deposit &&
                             transaction.getRelatedAccountId() == createAccountResponse.getId() &&
-                            transaction.getType().equals(type);
+                            transaction.getType().equals(DEPOSIT_TRANSACTION_TYPE);
                 }));
     }
 
     public static Stream<Arguments> userInvalidData() {
         return Stream.of(
                 Arguments.of(0, "Invalid account or amount"),
-                Arguments.of(-1, "Invalid account or amount")
-        );
+                Arguments.of(-1, "Invalid account or amount"),
+                Arguments.of(MIN_NOT_VALID_DEPOSIT_AMOUNT, "Deposit amount exceeds the 5000 limit")
+                );
     }
 
     @ParameterizedTest
     @MethodSource("userInvalidData")
-    public void userCantDepositWrongAmountTest(int wrongBalance, String errorMessage) {
+    public void userCantDepositWrongAmountTest(double wrongBalance, String errorMessage) {
         //create user with randomly generated data
         CreateUserRequest createUserRequest = AdminSteps.createUser();
 
@@ -92,7 +95,7 @@ public class DepositTest extends BaseTest {
 
     @Test
     public void userCantDepositMoneyOnDifferentUserAccountTest() {
-        final int deposit = 100;
+        final double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
         //create user with randomly generated data
         CreateUserRequest firstUserRequest = AdminSteps.createUser();
 

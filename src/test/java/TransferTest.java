@@ -1,3 +1,4 @@
+import generators.RandomData;
 import models.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,15 +17,15 @@ import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
+import static constants.Constants.*;
+
 public class TransferTest extends BaseTest{
-    String TRANSFER_IN_TYPE = "TRANSFER_IN";
-    String TRANSFER_OUT_TYPE = "TRANSFER_OUT";
 
     @Test
     public void userCanTransferMoneyOnHisOwnAccountTest() {
-        double deposit = 25.0;
-        double transferAmount = 10.0;
-        double leftFirstOnAccount = 15.0;
+        double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
+        double transferAmount = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, deposit);
+        double leftFirstOnAccount = RandomData.roundDoubleValue(deposit - transferAmount, DEFAULT_DOUBLE_PRECISION);
         //create user with randomly generated data
         CreateUserRequest createUserRequest = AdminSteps.createUser();
 
@@ -70,7 +71,7 @@ public class TransferTest extends BaseTest{
         ).stream().anyMatch(transaction -> {
             return  transaction.getRelatedAccountId() == secondAccountResponse.getId()
                     && transaction.getAmount() == transferAmount
-                    && transaction.getType().equals(TRANSFER_OUT_TYPE);
+                    && transaction.getType().equals(TRANSFER_OUT_TRANSACTION_TYPE);
         })).isEqualTo(true);
         //check second account balance
         softly.assertThat(transferAmount).isEqualTo(CustomerService.getCustomerAccountById(createUserRequest.getUsername(), createUserRequest.getPassword(), secondAccountResponse.getId())
@@ -84,15 +85,15 @@ public class TransferTest extends BaseTest{
         ).stream().anyMatch(transaction -> {
             return  transaction.getRelatedAccountId() == firstAccountResponse.getId()
                     && transaction.getAmount() == transferAmount
-                    && transaction.getType().equals(TRANSFER_IN_TYPE);
+                    && transaction.getType().equals(TRANSFER_IN_TRANSACTION_TYPE);
         })).isEqualTo(true);
     }
 
     @Test
     public void userCanTransferMoneyOnAnotherUserAccountTest() {
-        int deposit = 25;
-        double transferAmount = 5.50;
-        double leftOnFirstAccount = 19.50;
+        double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
+        double transferAmount = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, deposit);
+        double leftOnFirstAccount = RandomData.roundDoubleValue(deposit - transferAmount, DEFAULT_DOUBLE_PRECISION);
         //create first user
         CreateUserRequest firstUserRequest = AdminSteps.createUser();
 
@@ -141,7 +142,7 @@ public class TransferTest extends BaseTest{
         ).stream().anyMatch(transaction -> {
             return  transaction.getRelatedAccountId() == createSecondAccountResponse.getId()
                     && transaction.getAmount() == transferAmount
-                    && transaction.getType().equals(TRANSFER_OUT_TYPE);
+                    && transaction.getType().equals(TRANSFER_OUT_TRANSACTION_TYPE);
         })).isEqualTo(true);
         //check second account balance
         softly.assertThat(transferAmount).isEqualTo(CustomerService.getCustomerAccountById(
@@ -158,7 +159,7 @@ public class TransferTest extends BaseTest{
         ).stream().anyMatch(transaction -> {
             return  transaction.getRelatedAccountId() == createFirstAccountResponse.getId()
                     && transaction.getAmount() == transferAmount
-                    && transaction.getType().equals(TRANSFER_IN_TYPE);
+                    && transaction.getType().equals(TRANSFER_IN_TRANSACTION_TYPE);
         })).isEqualTo(true);
 
     }
