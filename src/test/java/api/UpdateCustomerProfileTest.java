@@ -1,3 +1,5 @@
+package api;
+
 import generators.RandomData;
 import generators.RandomModelGenerator;
 import models.*;

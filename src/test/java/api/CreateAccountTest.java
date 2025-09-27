@@ -1,3 +1,5 @@
+package api;
+
 import models.CreateUserRequest;
 import models.CreateUserResponse;
 import org.junit.jupiter.api.Test;

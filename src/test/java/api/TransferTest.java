@@ -1,3 +1,5 @@
+package api;
+
 import generators.RandomData;
 import models.*;
 import org.junit.jupiter.api.Test;

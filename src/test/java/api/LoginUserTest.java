@@ -1,3 +1,5 @@
+package api;
+
 import models.*;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

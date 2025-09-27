@@ -1,3 +1,5 @@
+package api;
+
 import generators.RandomModelGenerator;
 import models.CreateUserRequest;
 import models.CreateUserResponse;
