@@ -87,6 +87,13 @@
             <version>3.25.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.codeborne/selenide -->
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>7.10.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>
