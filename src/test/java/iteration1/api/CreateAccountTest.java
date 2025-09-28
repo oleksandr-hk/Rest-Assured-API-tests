@@ -1,13 +1,13 @@
 package iteration1.api;
 
-import models.CreateUserRequest;
-import models.CreateUserResponse;
+import api.models.CreateUserRequest;
+import api.models.CreateUserResponse;
 import org.junit.jupiter.api.Test;
-import requests.skelethon.EndPoint;
-import requests.skelethon.requests.ValidatedCrudRequester;
-import requests.steps.AdminSteps;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.requests.skelethon.EndPoint;
+import api.requests.skelethon.requests.ValidatedCrudRequester;
+import api.requests.steps.AdminSteps;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 public class CreateAccountTest extends BaseTest {
 
