@@ -1,17 +1,17 @@
 package services;
 
-import models.TransactionResponse;
-import requests.skelethon.EndPoint;
-import requests.skelethon.requests.ValidatedCrudRequester;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.models.Transaction;
+import api.requests.skelethon.EndPoint;
+import api.requests.skelethon.requests.ValidatedCrudRequester;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.util.List;
 
 public class TransactionService {
     //get account transactions
-    public static List<TransactionResponse> getAccountTransactions(String username, String password, long accountId) {
-        return new ValidatedCrudRequester<TransactionResponse>(
+    public static List<Transaction> getAccountTransactions(String username, String password, long accountId) {
+        return new ValidatedCrudRequester<Transaction>(
                 RequestSpecs.authAsUser(username, password),
                 ResponseSpecs.requestReturnsOk(),
                 EndPoint.ACCOUNT_TRANSACTIONS

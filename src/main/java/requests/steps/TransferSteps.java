@@ -1,12 +1,12 @@
 package requests.steps;
 
-import models.LoginUserRequest;
-import models.TransferRequest;
-import models.TransferResponse;
-import requests.skelethon.EndPoint;
-import requests.skelethon.requests.ValidatedCrudRequester;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.models.LoginUserRequest;
+import api.models.TransferRequest;
+import api.models.TransferResponse;
+import api.requests.skelethon.EndPoint;
+import api.requests.skelethon.requests.ValidatedCrudRequester;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 public class TransferSteps {
 

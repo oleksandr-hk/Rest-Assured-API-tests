@@ -1,11 +1,11 @@
 package services;
 
-import models.CreateAccountResponse;
-import models.CreateUserResponse;
-import requests.skelethon.EndPoint;
-import requests.skelethon.requests.ValidatedCrudRequester;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.models.CreateAccountResponse;
+import api.models.CreateUserResponse;
+import api.requests.skelethon.EndPoint;
+import api.requests.skelethon.requests.ValidatedCrudRequester;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.util.List;
 import java.util.Optional;
