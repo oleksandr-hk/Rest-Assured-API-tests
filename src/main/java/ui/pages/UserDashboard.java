@@ -21,4 +21,8 @@ public class UserDashboard extends BasePage<UserDashboard> {
         createnewAccount.click();
         return this;
     }
+
+    public String getWelcomeTextContent() {
+        return welcomeText.getText();
+    }
 }

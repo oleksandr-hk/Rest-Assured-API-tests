@@ -27,7 +27,7 @@ public class CreateUserTest extends BaseUITest{
         //check that user list contains newly created user
         CreateUserRequest newUser = RandomModelGenerator.generate(CreateUserRequest.class);
         new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
-                .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY)
+                .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY.getMessage())
                 .getAllUsers()
                 .findBy(Condition.exactText(newUser.getUsername() + "\nUSER")).shouldBe(Condition.visible);
         //check API returns newly created user
@@ -47,7 +47,7 @@ public class CreateUserTest extends BaseUITest{
         newUser.setUsername("a");
         //create user
         new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
-                .checkAlertMessageAndAccept(BankAlert.USERNAME_MUST_BE_BETWEEN3_AND_15_CHARACTERS)
+                .checkAlertMessageAndAccept(BankAlert.USERNAME_MUST_BE_BETWEEN3_AND_15_CHARACTERS.getMessage())
                 .getAllUsers()
                 .findBy(Condition.exactText(newUser.getUsername() + "\nUSER")).shouldNot(Condition.exist);
 

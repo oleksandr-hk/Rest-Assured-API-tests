@@ -25,9 +25,9 @@ public abstract class BasePage<T extends BasePage> {
         return Selenide.page(pageClass);
     }
 
-    public T checkAlertMessageAndAccept(BankAlert bankAlert) {
+    public T checkAlertMessageAndAccept(String bankAlert) {
         Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains(bankAlert.getMessage());
+        assertThat(alert.getText()).contains(bankAlert);
         alert.accept();
         return (T) this;
     }
