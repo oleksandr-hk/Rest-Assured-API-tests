@@ -5,7 +5,8 @@ import api.models.CreateAccountResponse;
 import api.models.CreateDepositRequest;
 import api.models.CreateUserRequest;
 import api.models.LoginUserRequest;
-import api.requests.steps.AdminSteps;
+import common.annotations.UserSession;
+import common.storage.SessionStorage;
 import iteration1.ui.BaseUITest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,10 +19,12 @@ import ui.pages.TransferPage;
 
 import static constants.Constants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TransferTest extends BaseUITest {
 
     @Test
+    @UserSession
     @DisplayName("User can transfer money between his own accounts")
     public void userCanTransferMoneyBetweenHisOwnAccountsTest() {
         double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
@@ -29,7 +32,7 @@ public class TransferTest extends BaseUITest {
         double leftFirstOnAccount = RandomData.roundDoubleValue(deposit - transferAmount, DEFAULT_DOUBLE_PRECISION);
         String recipientName = RandomData.getUsername();
         //create user with randomly generated data
-        CreateUserRequest user = AdminSteps.createUser();
+        CreateUserRequest user = SessionStorage.getUser();
 
         //create first account for user
         CreateAccountResponse firstAccountResponse = AccountSteps.createAccountForUser(
@@ -45,17 +48,16 @@ public class TransferTest extends BaseUITest {
                 new CreateDepositRequest(firstAccountResponse.getId(), firstAccountResponse.getAccountNumber(), deposit)
         );
 
-        authAsUther(user);
         //transfer money check alert and transactions page
-        boolean containsInUITransactionList  = new TransferPage().open().transfer(firstAccountResponse.getAccountNumber(), recipientName, secondAccountResponse.getAccountNumber(), transferAmount)
+        boolean containsInUITransactionList = new TransferPage().open().transfer(firstAccountResponse.getAccountNumber(), recipientName, secondAccountResponse.getAccountNumber(), transferAmount)
                 .checkAlertMessageAndAccept(String.format(BankAlert.SUCCESSFULLY_TRANSFERRED.getMessage(), transferAmount, secondAccountResponse.getAccountNumber()))
                 .openTransactionList()
                 .getTransactions()
-                .stream().anyMatch(transactionText -> {
-                    return transactionText.contains(user.getUsername()) &&
-                        transactionText.contains(TRANSFER_IN_TRANSACTION_TYPE) && transactionText.contains(String.valueOf(transferAmount))  ;
+                .stream().anyMatch(transaction -> {
+                        return transaction.getTransactionType().contains(TRANSFER_IN_TRANSACTION_TYPE)
+                                && transaction.getAmount() == transferAmount;
                 });
-        assertThat(containsInUITransactionList);
+        assertTrue(containsInUITransactionList);
         //check API reflects changes
         //check first account balance
         softly.assertThat(leftFirstOnAccount).isEqualTo(
@@ -92,16 +94,17 @@ public class TransferTest extends BaseUITest {
     }
 
     @Test
+    @UserSession(value = 2, auth = 1)
     @DisplayName("User can transfer money to another user account")
     public void userCanTransferMoneyToAnotherUserAccountTest() {
         double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
         double transferAmount = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, deposit);
         double leftOnFirstAccount = RandomData.roundDoubleValue(deposit - transferAmount, DEFAULT_DOUBLE_PRECISION);
         //create first user
-        CreateUserRequest firstUserRequest = AdminSteps.createUser();
+        CreateUserRequest firstUserRequest = SessionStorage.getUser(1);
 
         //create second user
-        CreateUserRequest secondUserRequest = AdminSteps.createUser();
+        CreateUserRequest secondUserRequest = SessionStorage.getUser(2);
 
         //create account for first user
         CreateAccountResponse createFirstAccountResponse = AccountSteps.createAccountForUser(
@@ -122,17 +125,15 @@ public class TransferTest extends BaseUITest {
                         .build()
         );
 
-        authAsUther(firstUserRequest);
         //transfer money check alert and transactions page
         boolean containsInUITransactionList  = new TransferPage().open().transfer(createFirstAccountResponse.getAccountNumber(), secondUserRequest.getUsername(), createSecondAccountResponse.getAccountNumber(), transferAmount)
                 .checkAlertMessageAndAccept(String.format(BankAlert.SUCCESSFULLY_TRANSFERRED.getMessage(), transferAmount, createSecondAccountResponse.getAccountNumber()))
                 .openTransactionList()
                 .getTransactions()
-                .stream().anyMatch(transactionText -> {
-                    return transactionText.contains(firstUserRequest.getUsername()) &&
-                            transactionText.contains(TRANSFER_OUT_TRANSACTION_TYPE) && transactionText.contains(String.valueOf(transferAmount))  ;
+                .stream().anyMatch(transaction -> {
+                    return transaction.getTransactionType().contains(TRANSFER_OUT_TRANSACTION_TYPE) && transaction.getAmount() == transferAmount  ;
                 });
-        assertThat(containsInUITransactionList);
+        assertTrue(containsInUITransactionList);
 
         //check API reflects changes
         //check first account balance
@@ -173,12 +174,13 @@ public class TransferTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     @DisplayName("User can't transfer more then current deposit")
     public void userCantTransferMoreThanCurrentDepositTest() {
         double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
         double transferAmount = RandomData.roundDoubleValue(deposit + 0.01, DEFAULT_DOUBLE_PRECISION);
         //create user with randomly generated data
-        CreateUserRequest createUserRequest = AdminSteps.createUser();
+        CreateUserRequest createUserRequest = SessionStorage.getUser();
 
         //create first account for user
         CreateAccountResponse firstAccountResponse = AccountSteps.createAccountForUser(
@@ -198,15 +200,13 @@ public class TransferTest extends BaseUITest {
         //check that user balance equal to new one
         softly.assertThat(deposit).isEqualTo(depositResponse.getBalance());
 
-        authAsUther(createUserRequest);
         //transfer money check alert and transactions page
         boolean containsInUITransactionList  = new TransferPage().open().transfer(firstAccountResponse.getAccountNumber(), createUserRequest.getUsername(), secondAccountResponse.getAccountNumber(), transferAmount)
                 .checkAlertMessageAndAccept(String.format(BankAlert.NOT_VALID_TRANSFER_AMOUNT.getMessage(), transferAmount, secondAccountResponse.getAccountNumber()))
                 .openTransactionList()
                 .getTransactions()
-                .stream().anyMatch(transactionText -> {
-                    return transactionText.contains(createUserRequest.getUsername()) &&
-                            transactionText.contains(TRANSFER_OUT_TRANSACTION_TYPE) && transactionText.contains(String.valueOf(transferAmount))  ;
+                .stream().anyMatch(transaction -> {
+                    return transaction.getTransactionType().contains(TRANSFER_OUT_TRANSACTION_TYPE) && transaction.getAmount() == transferAmount;
                 });
         assertThat(containsInUITransactionList).isFalse();
         //check API reflects no changes

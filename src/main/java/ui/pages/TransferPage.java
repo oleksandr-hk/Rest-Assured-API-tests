@@ -1,9 +1,8 @@
 package ui.pages;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
+import ui.elements.TransactionBage;
+import ui.elements.UserBage;
 
 import java.util.List;
 
@@ -43,8 +42,8 @@ public class TransferPage extends BasePage<TransferPage> {
         return this;
     };
 
-    public List<String> getTransactions() {
-        return transactionsList.stream().map(SelenideElement::getText).toList();
+    public List<TransactionBage> getTransactions() {
+        return generatePageElements(transactionsList, TransactionBage::new);
     }
 
     public TransferPage openTransactionList() {

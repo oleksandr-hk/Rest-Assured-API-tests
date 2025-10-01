@@ -3,9 +3,12 @@ package iteration2.ui;
 import api.generators.RandomData;
 import api.models.CreateAccountResponse;
 import api.models.CreateUserRequest;
+import api.models.CreateUserResponse;
 import api.models.LoginUserRequest;
 import api.requests.steps.AdminSteps;
 
+import common.annotations.UserSession;
+import common.storage.SessionStorage;
 import iteration1.ui.BaseUITest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -23,12 +26,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DepositTest extends BaseUITest {
 
     @Test
+    @UserSession
     @DisplayName("User can deposit money on his own account and transaction present in transaction")
     public void userCanDepositMoneyOnHisOwnAccountTest() {
         final double deposit = RandomData.getRandomDepositValue(MIN_DEPOSIT_AMOUNT, MAX_DEPOSIT_AMOUNT);
-        CreateUserRequest user = AdminSteps.createUser();
+        CreateUserRequest user = SessionStorage.getUser();
         CreateAccountResponse createAccountResponse = AccountSteps.createAccountForUser(new LoginUserRequest(user.getUsername(), user.getPassword()));
-        authAsUther(user);
         new DepositPage().open().depositAccount(createAccountResponse.getAccountNumber(), deposit)
                 .checkAlertMessageAndAccept(String.format(BankAlert.SUCCESSFULLY_DEPOSITED.getMessage(), deposit, createAccountResponse.getAccountNumber()));
 
@@ -48,12 +51,12 @@ public class DepositTest extends BaseUITest {
     }
 
     @Test
+    @UserSession
     @DisplayName("User can't deposit 0 or -1 amount of money on deposit")
     public void userCantDepositMoneyOnHisOwnAccountTest() {
         final double deposit = 0;
-        CreateUserRequest user = AdminSteps.createUser();
+        CreateUserRequest user = SessionStorage.getUser();
         CreateAccountResponse createAccountResponse = AccountSteps.createAccountForUser(new LoginUserRequest(user.getUsername(), user.getPassword()));
-        authAsUther(user);
         new DepositPage().open().depositAccount(createAccountResponse.getAccountNumber(), deposit)
                 .checkAlertMessageAndAccept(String.format(BankAlert.NOT_VALID_AMOUNT.getMessage(), deposit, createAccountResponse.getAccountNumber()));
         //check that API return 0 balance for newly created account

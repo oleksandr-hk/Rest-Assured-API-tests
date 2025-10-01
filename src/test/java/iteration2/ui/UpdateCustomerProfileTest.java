@@ -1,8 +1,7 @@
 package iteration2.ui;
 
 import api.generators.RandomData;
-import api.models.CreateUserRequest;
-import api.requests.steps.AdminSteps;
+import common.annotations.UserSession;
 import iteration1.ui.BaseUITest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,14 +16,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UpdateCustomerProfileTest extends BaseUITest {
 
     @Test
+    @UserSession
     @DisplayName("User can change his name")
     public void userCanChangeHisNameTest() {
         //update customer name
         String newCustomerName = RandomData.getUsername() + " " + RandomData.getUsername();
         //create user with randomly generated data
-        CreateUserRequest user = AdminSteps.createUser();
 
-        authAsUther(user);
         new EditProfilePage().open().updateName(newCustomerName)
                 .checkAlertMessageAndAccept(BankAlert.NAME_UPDATED_SUCCESSFULLY.getMessage());
         //navigate back to dashboard page and check that greeting title updated with new username
@@ -39,14 +37,12 @@ public class UpdateCustomerProfileTest extends BaseUITest {
 
 
     @Test
+    @UserSession
     @DisplayName("User can't change his name with name with single word")
     public void userCantChangeHisNameWithSingleWordTest() {
         //update customer name
         String newCustomerName = RandomData.getUsername();
-        //create user with randomly generated data
-        CreateUserRequest user = AdminSteps.createUser();
 
-        authAsUther(user);
         new EditProfilePage().open().updateName(newCustomerName)
                 .checkAlertMessageAndAccept(BankAlert.NOT_VALID_NAME.getMessage());
 
