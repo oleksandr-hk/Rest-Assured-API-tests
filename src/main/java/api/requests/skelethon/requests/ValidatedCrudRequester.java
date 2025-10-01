@@ -1,17 +1,17 @@
 package api.requests.skelethon.requests;
 
-import api.requests.skelethon.interfaces.GetAllEndPoint;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import api.models.BaseModel;
 import api.requests.skelethon.EndPoint;
 import api.requests.skelethon.HttpRequest;
 import api.requests.skelethon.interfaces.CrudEndPointInterface;
+import api.requests.skelethon.interfaces.ReadableAlInterface;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndPointInterface, GetAllEndPoint {
+public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest implements CrudEndPointInterface, ReadableAlInterface {
     private CrudRequester crudRequester;
 
     public ValidatedCrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, EndPoint endPoint) {
@@ -34,16 +34,32 @@ public class ValidatedCrudRequester<T extends BaseModel> extends HttpRequest imp
     }
 
     @Override
+    public List<T> get() {
+        return (List<T>) crudRequester.get()
+                .extract()
+                .jsonPath()
+                .getList("", endPoint.getResponseModel());
+    }
+
+    @Override
+    public List<T> getAllById(long id) {
+        return (List<T>) crudRequester.getAllById(id)
+                .extract()
+                .jsonPath()
+                .getList("", endPoint.getResponseModel());
+    }
+
+    @Override
     public List<T> getAll(Class<?> clazz) {
-        T[] array =  (T[]) crudRequester.getAll(clazz)
+        T[] array = (T[]) crudRequester.getAll(clazz)
                 .extract()
                 .as(clazz);
         return Arrays.asList(array);
     }
 
     @Override
-    public T update(long id, BaseModel model) {
-        return (T) crudRequester.update(id, model)
+    public T update(BaseModel model) {
+        return (T) crudRequester.update(model)
                 .extract()
                 .as(endPoint.getResponseModel());
     }

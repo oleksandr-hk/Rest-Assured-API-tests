@@ -25,7 +25,7 @@ public class CreateAccountTest extends BaseUITest {
         List<CreateAccountResponse> createdAccounts = SessionStorage.getSteps()
                 .getAllAccounts();
 
-        new UserDashboard().checkAlertMessageAndAccept(BankAlert.NEW_ACCOUNT_CREATED);
+        new UserDashboard().checkAlertMessageAndAccept(BankAlert.NEW_ACCOUNT_CREATED.getMessage());
 
         assertThat(createdAccounts).hasSize(1);
         assertThat(createdAccounts.getFirst().getBalance()).isZero();

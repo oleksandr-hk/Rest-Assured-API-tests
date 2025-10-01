@@ -31,5 +31,4 @@ public class AdminPanel extends BasePage<AdminPanel> {
     public List<UserBage> getAllUsers() {
         return generatePageElements($(Selectors.byText("All Users")).parent().findAll("li"), UserBage::new);
     }
-
 }

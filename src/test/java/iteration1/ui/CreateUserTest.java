@@ -26,7 +26,7 @@ public class CreateUserTest extends BaseUITest{
         //check that user list contains newly created user
         CreateUserRequest newUser = RandomModelGenerator.generate(CreateUserRequest.class);
         assertTrue(new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
-                .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY)
+                .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY.getMessage())
                 .getAllUsers()
                 .stream()
                 .anyMatch(userBage -> userBage.getUsername().equals(newUser.getUsername())));
@@ -44,7 +44,7 @@ public class CreateUserTest extends BaseUITest{
         newUser.setUsername("a");
         //create user
         assertFalse(new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
-                .checkAlertMessageAndAccept(BankAlert.USERNAME_MUST_BE_BETWEEN3_AND_15_CHARACTERS)
+                .checkAlertMessageAndAccept(BankAlert.USERNAME_MUST_BE_BETWEEN3_AND_15_CHARACTERS.getMessage())
                 .getAllUsers()
                 .stream()
                 .anyMatch(userBage -> userBage.getUsername().equals(newUser.getUsername())));

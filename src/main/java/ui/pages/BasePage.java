@@ -31,9 +31,9 @@ public abstract class BasePage<T extends BasePage> {
         return Selenide.page(pageClass);
     }
 
-    public T checkAlertMessageAndAccept(BankAlert bankAlert) {
+    public T checkAlertMessageAndAccept(String bankAlert) {
         Alert alert = switchTo().alert();
-        assertThat(alert.getText()).contains(bankAlert.getMessage());
+        assertThat(alert.getText()).contains(bankAlert);
         alert.accept();
         return (T) this;
     }
@@ -51,6 +51,5 @@ public abstract class BasePage<T extends BasePage> {
     protected <T extends BaseElement> List<T> generatePageElements(ElementsCollection elementsCollection, Function<SelenideElement, T> constructor ) {
         return elementsCollection.stream().map(element -> constructor.apply(element)).toList();
     }
-
 
 }

@@ -18,15 +18,35 @@ public enum EndPoint {
             BaseModel.class,
             CreateAccountResponse.class
     ),
+    CUSTOMER_ACCOUNTS(
+            "/customer/accounts",
+            BaseModel.class,
+            CreateAccountResponse.class
+    ),
+    ACCOUNT_TRANSACTIONS(
+            "/accounts/{id}/transactions",
+            BaseModel.class,
+            Transaction.class
+    ),
     LOGIN(
             "/auth/login",
             LoginUserRequest.class,
             LoginUserResponse.class
     ),
-    CUSTOMER_ACCOUNTS(
-            "/customer/accounts",
-            BaseModel.class,
+    DEPOSIT(
+        "/accounts/deposit",
+            CreateDepositRequest.class,
             CreateAccountResponse.class
+    ),
+    TRANSFER(
+            "/accounts/transfer",
+            TransferRequest.class,
+            TransferResponse.class
+    ),
+    UPDATE_CUSTOMER(
+            "/customer/profile",
+            UpdateCustomerNameRequest.class,
+            UpdateCustomerResponse.class
     );
 
     private final String url;
