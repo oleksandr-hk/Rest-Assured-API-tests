@@ -12,8 +12,7 @@ import ui.pages.AdminPanel;
 import ui.pages.BankAlert;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateUserTest extends BaseUITest{
 
@@ -25,11 +24,9 @@ public class CreateUserTest extends BaseUITest{
         //check alert content
         //check that user list contains newly created user
         CreateUserRequest newUser = RandomModelGenerator.generate(CreateUserRequest.class);
-        assertTrue(new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
+        assertNotEquals(new AdminPanel().open().createUser(newUser.getUsername(), newUser.getPassword())
                 .checkAlertMessageAndAccept(BankAlert.USER_CREATED_SUCCESSFULLY.getMessage())
-                .getAllUsers()
-                .stream()
-                .anyMatch(userBage -> userBage.getUsername().equals(newUser.getUsername())));
+                .findUserByUsername(newUser.getUsername()), null);
         //check API returns newly created user
         CreateUserResponse createdUser  = AdminSteps.getAllUsers().stream().filter(user -> user.getUsername().equals(newUser.getUsername())).findFirst().get();
         ModelAssertions.assertThatModels(newUser, createdUser);

@@ -2,10 +2,12 @@ package ui.pages;
 
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import common.utils.RetryUtils;
 import lombok.Getter;
 import ui.elements.UserBage;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.codeborne.selenide.Selenide.$;
 
@@ -30,5 +32,14 @@ public class AdminPanel extends BasePage<AdminPanel> {
 
     public List<UserBage> getAllUsers() {
         return generatePageElements($(Selectors.byText("All Users")).parent().findAll("li"), UserBage::new);
+    }
+
+    public UserBage findUserByUsername(String username) {
+        return  RetryUtils.retry(
+                () -> getAllUsers().stream().filter(it -> it.getUsername().equals(username)).findAny().orElse(null),
+                Objects::nonNull,
+                3,
+                1000
+        );
     }
 }
