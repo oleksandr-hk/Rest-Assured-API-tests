@@ -19,34 +19,29 @@ import java.util.stream.Stream;
 
 public class CreateUserTest extends BaseTest {
 
-    @Test
     public void adminCanCreateUserWithCorrectData() {
-        //generate user data
-        CreateUserRequest createUserRequest = RandomModelGenerator.generate(CreateUserRequest.class);
+        CreateUserRequest createUserRequest =
+                RandomModelGenerator.generate(CreateUserRequest.class);
 
-        //create user with previously generated data
-        CreateUserResponse createUserResponse = new ValidatedCrudRequester<CreateUserResponse>(
-                RequestSpecs.adminSpec(),
-                ResponseSpecs.entityWasCreated(),
-                EndPoint.ADMIN_USER)
+        CreateUserResponse createUserResponse = new ValidatedCrudRequester<CreateUserResponse>
+                (RequestSpecs.adminSpec(),
+                        ResponseSpecs.entityWasCreated(),
+                        EndPoint.ADMIN_USER
+                        )
                 .post(createUserRequest);
 
-        //check if created user data equal to expected one
-        ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
-//        softly.assertThat(createUserRequest.getUsername()).isEqualTo(createUserResponse.getUsername());
-//        softly.assertThat(createUserRequest.getPassword()).isNotEqualTo(createUserResponse.getPassword());
-//        softly.assertThat(createUserRequest.getRole()).isEqualTo(createUserResponse.getRole());
-//        softly.assertAll();
-
+        ModelAssertions.assertThatModels(createUserRequest,createUserResponse).match();
     }
 
     public static Stream<Arguments> userInvalidData() {
         return Stream.of(
-                Arguments.of("   ", "Password33$", "USER", "username", List.of("Username cannot be blank")),
+                // username field validation
+                Arguments.of("   ", "Password33$", "USER", "username", List.of("Username cannot be blank", "Username must contain only letters, digits, dashes, underscores, and dots")),
                 Arguments.of("ab", "Password33$", "USER", "username", List.of("Username must be between 3 and 15 characters")),
                 Arguments.of("abc$", "Password33$", "USER", "username", List.of("Username must contain only letters, digits, dashes, underscores, and dots")),
                 Arguments.of("abc%", "Password33$", "USER", "username", List.of("Username must contain only letters, digits, dashes, underscores, and dots"))
         );
+
     }
 
     @MethodSource("userInvalidData")
