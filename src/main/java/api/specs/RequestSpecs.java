@@ -21,7 +21,7 @@ public class RequestSpecs {
     }
 
     private static RequestSpecBuilder defaultRequestBuilder() {
-        return new RequestSpecBuilder().setContentType(ContentType.JSON).setAccept(ContentType.JSON).addFilters(List.of(new ResponseLoggingFilter(), new RequestLoggingFilter())).setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"));
+        return new RequestSpecBuilder().setContentType(ContentType.JSON).setAccept(ContentType.JSON).setBaseUri(Config.getProperty("apiBaseUrl") + Config.getProperty("apiVersion"));
     }
 
     public static RequestSpecification unauthSpec() {

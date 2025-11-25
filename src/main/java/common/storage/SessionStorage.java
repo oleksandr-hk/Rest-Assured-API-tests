@@ -8,7 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SessionStorage {
-    private static final SessionStorage INSTANCE = new SessionStorage();;
+    /** Thread Local is the  way how can we achieve thread safety
+     *  Map<Thread, SessionStorage> unique storage for each thread
+     */
+    private static final ThreadLocal<SessionStorage> INSTANCE = ThreadLocal.withInitial(SessionStorage::new);;
     private LinkedHashMap<CreateUserRequest, UserSteps> userStepsMap = new LinkedHashMap<>();
 
 
@@ -16,12 +19,12 @@ public class SessionStorage {
 
     public static void addUsers(List<CreateUserRequest> users) {
         for (CreateUserRequest user: users) {
-            INSTANCE.userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
+            INSTANCE.get().userStepsMap.put(user, new UserSteps(user.getUsername(), user.getPassword()));
         }
     };
 
     public static CreateUserRequest getUser(int index) {
-        return  new ArrayList<>(INSTANCE.userStepsMap.keySet()).get(index - 1);
+        return  new ArrayList<>(INSTANCE.get().userStepsMap.keySet()).get(index - 1);
     }
 
     public static CreateUserRequest getUser() {
@@ -29,15 +32,15 @@ public class SessionStorage {
     }
 
     public static UserSteps getSteps(int index) {
-        return new ArrayList<>(INSTANCE.userStepsMap.values()).get(index - 1);
+        return new ArrayList<>(INSTANCE.get().userStepsMap.values()).get(index - 1);
     }
 
     public static UserSteps getSteps() {
-        return new ArrayList<>(INSTANCE.userStepsMap.values()).getFirst();
+        return new ArrayList<>(INSTANCE.get().userStepsMap.values()).getFirst();
     }
 
     public static void clear() {
-        INSTANCE.userStepsMap.clear();
+        INSTANCE.get().userStepsMap.clear();
     }
 
 }
