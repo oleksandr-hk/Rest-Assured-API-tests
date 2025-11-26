@@ -4,5 +4,5 @@
 sh restart_docker.sh
 
 #Executiong tests
-sh ../../run-tests.sh -p api
-sh ../../run-tests.sh -p ui
+cd ../../
+sh run-tests.sh -p api,ui

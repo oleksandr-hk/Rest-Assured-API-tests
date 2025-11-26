@@ -2,8 +2,8 @@ FROM maven:3.9.9-eclipse-temurin-21
 
 #ENV variable for container
 ENV TEST_PROFILE=api
-ENV APIBASEURL=http://{REPLACE_TO_CORRECT}:4111
-ENV UIBASEURL=http://{REPLACE_TO_CORRECT}:3000
+ENV APIBASEURL=http://{REPLACE_WITH_CORRECT_IP}:4111
+ENV UIBASEURL=http://{REPLACE_WITH_CORRECT_IP}:3000
 
 #container working directory
 WORKDIR /app
