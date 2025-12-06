@@ -1,0 +1,180 @@
+>>> Running tests with profile: ${TEST_PROFILE}
+Unable to parse command line options: Missing argument for option: P
+
+usage: mvn [options] [<goal(s)>] [<phase(s)>]
+
+Options:
+ -am,--also-make                         If project list is specified,
+                                         also build projects required by
+                                         the list
+ -amd,--also-make-dependents             If project list is specified,
+                                         also build projects that depend
+                                         on projects on the list
+ -B,--batch-mode                         Run in non-interactive (batch)
+                                         mode (disables output color)
+ -b,--builder <arg>                      The id of the build strategy to
+                                         use
+ -C,--strict-checksums                   Fail the build if checksums don't
+                                         match
+ -c,--lax-checksums                      Warn if checksums don't match
+    --color <arg>                        Defines the color mode of the
+                                         output. Supported are 'auto',
+                                         'always', 'never'.
+ -cpu,--check-plugin-updates             Ineffective, only kept for
+                                         backward compatibility
+ -D,--define <arg>                       Define a user property
+ -e,--errors                             Produce execution error messages
+ -emp,--encrypt-master-password <arg>    Encrypt master security password
+ -ep,--encrypt-password <arg>            Encrypt server password
+ -f,--file <arg>                         Force the use of an alternate POM
+                                         file (or directory with pom.xml)
+ -fae,--fail-at-end                      Only fail the build afterwards;
+                                         allow all non-impacted builds to
+                                         continue
+ -ff,--fail-fast                         Stop at first failure in
+                                         reactorized builds
+ -fn,--fail-never                        NEVER fail the build, regardless
+                                         of project result
+ -gs,--global-settings <arg>             Alternate path for the global
+                                         settings file
+ -gt,--global-toolchains <arg>           Alternate path for the global
+                                         toolchains file
+ -h,--help                               Display help information
+ -itr,--ignore-transitive-repositories   If set, Maven will ignore remote
+                                         repositories introduced by
+                                         transitive dependencies.
+ -l,--log-file <arg>                     Log file where all build output
+                                         will go (disables output color)
+ -llr,--legacy-local-repository          UNSUPPORTED: Use of this option
+                                         will make Maven invocation fail.
+ -N,--non-recursive                      Do not recurse into sub-projects
+ -npr,--no-plugin-registry               Ineffective, only kept for
+                                         backward compatibility
+ -npu,--no-plugin-updates                Ineffective, only kept for
+                                         backward compatibility
+ -nsu,--no-snapshot-updates              Suppress SNAPSHOT updates
+ -ntp,--no-transfer-progress             Do not display transfer progress
+                                         when downloading or uploading
+ -o,--offline                            Work offline
+ -P,--activate-profiles <arg>            Comma-delimited list of profiles
+                                         to activate
+ -pl,--projects <arg>                    Comma-delimited list of specified
+                                         reactor projects to build instead
+                                         of all projects. A project can be
+                                         specified by [groupId]:artifactId
+                                         or by its relative path
+ -q,--quiet                              Quiet output - only show errors
+ -rf,--resume-from <arg>                 Resume reactor from specified
+                                         project
+ -s,--settings <arg>                     Alternate path for the user
+                                         settings file
+ -t,--toolchains <arg>                   Alternate path for the user
+                                         toolchains file
+ -T,--threads <arg>                      Thread count, for instance 4
+                                         (int) or 2C/2.5C (int/float)
+                                         where C is core multiplied
+ -U,--update-snapshots                   Forces a check for missing
+                                         releases and updated snapshots on
+                                         remote repositories
+ -up,--update-plugins                    Ineffective, only kept for
+                                         backward compatibility
+ -v,--version                            Display version information
+ -V,--show-version                       Display version information
+                                         WITHOUT stopping build
+ -X,--debug                              Produce execution debug output
+
+[ERROR] Error executing Maven.
+org.apache.commons.cli.MissingArgumentException: Missing argument for option: P
+	at org.apache.commons.cli.Parser.processArgs(Parser.java:228)
+	at org.apache.commons.cli.Parser.processOption(Parser.java:252)
+	at org.apache.commons.cli.Parser.parse(Parser.java:176)
+	at org.apache.commons.cli.Parser.parse(Parser.java:94)
+	at org.apache.maven.cli.CLIManager.parse(CLIManager.java:309)
+	at org.apache.maven.cli.MavenCli.cli(MavenCli.java:402)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:272)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:206)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:255)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:201)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:361)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:314)
+>>> Running surefire-report:report
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for me.nobugs:nbank-tests:jar:1.0-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.assertj:assertj-core:jar -> version 3.27.3 vs 3.25.3 @ line 68, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -----------------------< me.nobugs:nbank-tests >------------------------
+[INFO] Building nbank-tests 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> surefire-report:3.2.5:report (default-cli) > [surefire]test @ nbank-tests >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ nbank-tests ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ nbank-tests ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 56 source files with javac [debug target 21] to target/classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[WARNING] /app/src/main/java/api/models/TransferRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateAccountResponse.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/LoginUserResponse.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/AccountResponse.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateUserResponse.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateDepositRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/UpdateCustomerResponse.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/UpdateCustomerNameRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/Transaction.java:[11,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/LoginUserRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateUserRequest.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/TransferResponse.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[INFO] /app/src/main/java/api/generators/RandomData.java: /app/src/main/java/api/generators/RandomData.java uses or overrides a deprecated API.
+[INFO] /app/src/main/java/api/generators/RandomData.java: Recompile with -Xlint:deprecation for details.
+[INFO] /app/src/main/java/api/requests/skelethon/requests/ValidatedCrudRequester.java: Some input files use unchecked or unsafe operations.
+[INFO] /app/src/main/java/api/requests/skelethon/requests/ValidatedCrudRequester.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ nbank-tests ---
+[INFO] skip non existing resourceDirectory /app/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ nbank-tests ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 14 source files with javac [debug target 21] to target/test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ nbank-tests ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] <<< surefire-report:3.2.5:report (default-cli) < [surefire]test @ nbank-tests <<<
+[INFO] 
+[INFO] 
+[INFO] --- surefire-report:3.2.5:report (default-cli) @ nbank-tests ---
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/skins/maven-default-skin/1.3/maven-default-skin-1.3.jar
+Progress (1): 0.9/14 kBProgress (1): 2.3/14 kBProgress (1): 3.6/14 kBProgress (1): 5.0/14 kBProgress (1): 6.4/14 kBProgress (1): 7.7/14 kBProgress (1): 9.1/14 kBProgress (1): 10/14 kB Progress (1): 12/14 kBProgress (1): 13/14 kBProgress (1): 14 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/skins/maven-default-skin/1.3/maven-default-skin-1.3.jar (14 kB at 15 kB/s)
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[WARNING] Unable to locate Test Source XRef to link to - DISABLED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.434 s
+[INFO] Finished at: 2025-11-24T23:51:04Z
+[INFO] ------------------------------------------------------------------------

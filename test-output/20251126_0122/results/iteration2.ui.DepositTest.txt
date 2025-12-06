@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: iteration2.ui.DepositTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 46.38 s -- in iteration2.ui.DepositTest

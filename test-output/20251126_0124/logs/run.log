@@ -1,0 +1,528 @@
+>>> Running tests with profile: ${TEST_PROFILE}
+Downloading from central: https://repo.maven.apache.org/maven2/com/soebes/maven/extensions/maven-buildtime-profiler/0.5.0/maven-buildtime-profiler-0.5.0.pom
+Progress (1): 1.0 kBProgress (1): 3.4 kBProgress (1): 6.7 kBProgress (1): 9.6 kBProgress (1): 9.6 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/com/soebes/maven/extensions/maven-buildtime-profiler/0.5.0/maven-buildtime-profiler-0.5.0.pom (9.6 kB at 53 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/com/soebes/smpp/smpp/7.0.3/smpp-7.0.3.pom
+Progress (1): 907 BProgress (1): 2.5 kBProgress (1): 4.6 kBProgress (1): 13 kB Progress (1): 17 kBProgress (1): 20 kBProgress (1): 22 kBProgress (1): 26 kBProgress (1): 28 kBProgress (1): 29 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/com/soebes/smpp/smpp/7.0.3/smpp-7.0.3.pom (29 kB at 640 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.9.1/junit-bom-5.9.1.pom
+Progress (1): 907 BProgress (1): 2.4 kBProgress (1): 5.6 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.9.1/junit-bom-5.9.1.pom (5.6 kB at 134 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/com/soebes/maven/extensions/maven-buildtime-profiler/0.5.0/maven-buildtime-profiler-0.5.0.jar
+Progress (1): 0.9/45 kBProgress (1): 2.3/45 kBProgress (1): 3.6/45 kBProgress (1): 5.0/45 kBProgress (1): 6.4/45 kBProgress (1): 7.7/45 kBProgress (1): 9.1/45 kBProgress (1): 10/45 kB Progress (1): 12/45 kBProgress (1): 13/45 kBProgress (1): 15/45 kBProgress (1): 16/45 kBProgress (1): 17/45 kBProgress (1): 19/45 kBProgress (1): 20/45 kBProgress (1): 21/45 kBProgress (1): 23/45 kBProgress (1): 24/45 kBProgress (1): 25/45 kBProgress (1): 26/45 kBProgress (1): 27/45 kBProgress (1): 29/45 kBProgress (1): 30/45 kBProgress (1): 31/45 kBProgress (1): 33/45 kBProgress (1): 34/45 kBProgress (1): 38/45 kBProgress (1): 43/45 kBProgress (1): 45 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/com/soebes/maven/extensions/maven-buildtime-profiler/0.5.0/maven-buildtime-profiler-0.5.0.jar (45 kB at 953 kB/s)
+[INFO] Maven Build Time Profiler started. (Version 0.5.0)
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for me.nobugs:nbank-tests:jar:1.0-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.assertj:assertj-core:jar -> version 3.27.3 vs 3.25.3 @ line 68, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -----------------------< me.nobugs:nbank-tests >------------------------
+[INFO] Building nbank-tests 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ nbank-tests ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ nbank-tests ---
+[INFO] Recompiling the module because of added or removed source files.
+[INFO] Compiling 58 source files with javac [debug target 21] to target/classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[WARNING] /app/src/main/java/api/models/LoginUserResponse.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/UpdateCustomerNameRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateUserResponse.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/TransferResponse.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateUserRequest.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateAccountResponse.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/TransferRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/AccountResponse.java:[10,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/CreateDepositRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/UpdateCustomerResponse.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/LoginUserRequest.java:[8,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[WARNING] /app/src/main/java/api/models/Transaction.java:[11,1] Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '@EqualsAndHashCode(callSuper=false)' to your type.
+[INFO] /app/src/main/java/api/generators/RandomData.java: /app/src/main/java/api/generators/RandomData.java uses or overrides a deprecated API.
+[INFO] /app/src/main/java/api/generators/RandomData.java: Recompile with -Xlint:deprecation for details.
+[INFO] /app/src/main/java/api/requests/skelethon/requests/ValidatedCrudRequester.java: Some input files use unchecked or unsafe operations.
+[INFO] /app/src/main/java/api/requests/skelethon/requests/ValidatedCrudRequester.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ nbank-tests ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ nbank-tests ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 14 source files with javac [debug target 21] to target/test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ nbank-tests ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.pom
+Progress (1): 833 BProgress (1): 3.5 kBProgress (1): 4.7 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.pom (4.7 kB at 90 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-providers/3.2.5/surefire-providers-3.2.5.pom
+Progress (1): 846 BProgress (1): 2.6 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-providers/3.2.5/surefire-providers-3.2.5.pom (2.6 kB at 67 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.2.5/common-java5-3.2.5.pom
+Progress (1): 841 BProgress (1): 2.6 kBProgress (1): 2.8 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.2.5/common-java5-3.2.5.pom (2.8 kB at 67 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.9.3/junit-platform-launcher-1.9.3.pom
+Progress (1): 961 BProgress (1): 3.0 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.9.3/junit-platform-launcher-1.9.3.pom (3.0 kB at 69 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.9.3/junit-platform-engine-1.9.3.pom
+Progress (1): 953 BProgress (1): 3.2 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.9.3/junit-platform-engine-1.9.3.pom (3.2 kB at 82 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.pom
+Progress (1): 1.2 kBProgress (1): 1.7 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.pom (1.7 kB at 42 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.9.3/junit-platform-commons-1.9.3.pom
+Progress (1): 958 BProgress (1): 2.8 kB                    Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.9.3/junit-platform-commons-1.9.3.pom (2.8 kB at 73 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.jar
+Progress (1): 3.8/27 kBProgress (1): 8.0/27 kBProgress (1): 8.2/27 kBProgress (1): 12/27 kB Progress (1): 17/27 kBProgress (1): 21/27 kBProgress (1): 25/27 kBProgress (1): 27 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit-platform/3.2.5/surefire-junit-platform-3.2.5.jar (27 kB at 603 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.2.5/common-java5-3.2.5.jar
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.9.3/junit-platform-launcher-1.9.3.jar
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.9.3/junit-platform-engine-1.9.3.jar
+Downloading from central: https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar
+Downloading from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.9.3/junit-platform-commons-1.9.3.jar
+Progress (1): 3.8/18 kBProgress (1): 8.0/18 kBProgress (1): 12/18 kB Progress (1): 16/18 kBProgress (1): 18 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.2.5/common-java5-3.2.5.jar (18 kB at 399 kB/s)
+Progress (1): 0.9/103 kBProgress (1): 2.3/103 kBProgress (1): 3.6/103 kBProgress (1): 5.0/103 kBProgress (1): 6.4/103 kBProgress (1): 7.7/103 kBProgress (1): 9.1/103 kBProgress (1): 10/103 kB Progress (1): 12/103 kBProgress (1): 13/103 kBProgress (1): 15/103 kBProgress (1): 16/103 kBProgress (1): 17/103 kBProgress (1): 19/103 kBProgress (1): 20/103 kBProgress (1): 21/103 kBProgress (1): 23/103 kBProgress (1): 24/103 kBProgress (1): 26/103 kBProgress (1): 27/103 kBProgress (1): 28/103 kBProgress (1): 30/103 kBProgress (1): 31/103 kBProgress (1): 32/103 kBProgress (1): 34/103 kBProgress (1): 35/103 kBProgress (1): 36/103 kBProgress (1): 38/103 kBProgress (1): 39/103 kBProgress (1): 41/103 kBProgress (1): 42/103 kBProgress (1): 43/103 kBProgress (1): 45/103 kBProgress (1): 46/103 kBProgress (1): 47/103 kBProgress (1): 49/103 kBProgress (1): 50/103 kBProgress (1): 52/103 kBProgress (1): 53/103 kBProgress (1): 54/103 kBProgress (1): 56/103 kBProgress (1): 57/103 kBProgress (1): 62/103 kBProgress (2): 62/103 kB | 0.9/169 kBProgress (2): 62/103 kB | 2.3/169 kBProgress (2): 62/103 kB | 3.6/169 kBProgress (2): 66/103 kB | 3.6/169 kBProgress (2): 66/103 kB | 5.0/169 kBProgress (2): 70/103 kB | 5.0/169 kBProgress (2): 70/103 kB | 6.4/169 kBProgress (2): 70/103 kB | 7.7/169 kBProgress (2): 74/103 kB | 7.7/169 kBProgress (2): 74/103 kB | 9.1/169 kBProgress (2): 74/103 kB | 10/169 kB Progress (2): 78/103 kB | 10/169 kBProgress (2): 78/103 kB | 12/169 kBProgress (2): 78/103 kB | 13/169 kBProgress (2): 83/103 kB | 13/169 kBProgress (2): 83/103 kB | 15/169 kBProgress (2): 83/103 kB | 16/169 kBProgress (2): 87/103 kB | 16/169 kBProgress (2): 87/103 kB | 17/169 kBProgress (2): 87/103 kB | 19/169 kBProgress (2): 91/103 kB | 19/169 kBProgress (2): 91/103 kB | 20/169 kBProgress (2): 91/103 kB | 21/169 kBProgress (2): 95/103 kB | 21/169 kBProgress (2): 95/103 kB | 23/169 kBProgress (2): 95/103 kB | 24/169 kBProgress (2): 100/103 kB | 24/169 kBProgress (2): 100/103 kB | 26/169 kBProgress (2): 100/103 kB | 27/169 kBProgress (2): 103 kB | 27/169 kB    Progress (2): 103 kB | 28/169 kBProgress (2): 103 kB | 30/169 kBProgress (2): 103 kB | 31/169 kBProgress (2): 103 kB | 32/169 kBProgress (2): 103 kB | 34/169 kB                                Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.9.3/junit-platform-commons-1.9.3.jar (103 kB at 1.2 MB/s)
+Progress (1): 35/169 kBProgress (1): 36/169 kBProgress (1): 38/169 kBProgress (1): 39/169 kBProgress (1): 41/169 kBProgress (1): 42/169 kBProgress (1): 43/169 kBProgress (1): 45/169 kBProgress (1): 46/169 kBProgress (1): 47/169 kBProgress (1): 49/169 kBProgress (1): 50/169 kBProgress (1): 52/169 kBProgress (1): 53/169 kBProgress (1): 54/169 kBProgress (1): 56/169 kBProgress (1): 60/169 kBProgress (1): 64/169 kBProgress (1): 68/169 kBProgress (1): 73/169 kBProgress (1): 77/169 kBProgress (1): 81/169 kBProgress (1): 85/169 kBProgress (1): 89/169 kBProgress (2): 89/169 kB | 0.9/7.7 kBProgress (2): 94/169 kB | 0.9/7.7 kBProgress (2): 94/169 kB | 2.3/7.7 kBProgress (2): 94/169 kB | 3.6/7.7 kBProgress (2): 98/169 kB | 3.6/7.7 kBProgress (2): 98/169 kB | 5.0/7.7 kBProgress (2): 98/169 kB | 6.4/7.7 kBProgress (2): 102/169 kB | 6.4/7.7 kBProgress (2): 102/169 kB | 7.7 kB    Progress (2): 106/169 kB | 7.7 kBProgress (2): 111/169 kB | 7.7 kBProgress (2): 115/169 kB | 7.7 kB                                 Downloaded from central: https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar (7.7 kB at 82 kB/s)
+Progress (1): 119/169 kBProgress (1): 123/169 kBProgress (1): 128/169 kBProgress (2): 128/169 kB | 0.9/189 kBProgress (2): 128/169 kB | 2.3/189 kBProgress (2): 128/169 kB | 3.6/189 kBProgress (2): 128/169 kB | 5.0/189 kBProgress (2): 128/169 kB | 6.4/189 kBProgress (2): 128/169 kB | 7.7/189 kBProgress (2): 128/169 kB | 9.1/189 kBProgress (2): 128/169 kB | 10/189 kB Progress (2): 128/169 kB | 12/189 kBProgress (2): 128/169 kB | 13/189 kBProgress (2): 128/169 kB | 15/189 kBProgress (2): 128/169 kB | 16/189 kBProgress (2): 128/169 kB | 17/189 kBProgress (2): 128/169 kB | 19/189 kBProgress (2): 128/169 kB | 20/189 kBProgress (2): 128/169 kB | 21/189 kBProgress (2): 128/169 kB | 23/189 kBProgress (2): 128/169 kB | 24/189 kBProgress (2): 128/169 kB | 26/189 kBProgress (2): 128/169 kB | 27/189 kBProgress (2): 128/169 kB | 28/189 kBProgress (2): 128/169 kB | 30/189 kBProgress (2): 128/169 kB | 31/189 kBProgress (2): 128/169 kB | 32/189 kBProgress (2): 128/169 kB | 34/189 kBProgress (2): 128/169 kB | 35/189 kBProgress (2): 128/169 kB | 36/189 kBProgress (2): 128/169 kB | 38/189 kBProgress (2): 128/169 kB | 39/189 kBProgress (2): 128/169 kB | 41/189 kBProgress (2): 128/169 kB | 42/189 kBProgress (2): 128/169 kB | 43/189 kBProgress (2): 128/169 kB | 45/189 kBProgress (2): 128/169 kB | 46/189 kBProgress (2): 128/169 kB | 47/189 kBProgress (2): 128/169 kB | 49/189 kBProgress (2): 128/169 kB | 50/189 kBProgress (2): 128/169 kB | 52/189 kBProgress (2): 128/169 kB | 53/189 kBProgress (2): 128/169 kB | 54/189 kBProgress (2): 128/169 kB | 56/189 kBProgress (2): 128/169 kB | 60/189 kBProgress (2): 128/169 kB | 64/189 kBProgress (2): 128/169 kB | 68/189 kBProgress (2): 128/169 kB | 73/189 kBProgress (2): 128/169 kB | 77/189 kBProgress (2): 128/169 kB | 81/189 kBProgress (2): 128/169 kB | 85/189 kBProgress (2): 128/169 kB | 89/189 kBProgress (2): 128/169 kB | 94/189 kBProgress (2): 128/169 kB | 98/189 kBProgress (2): 128/169 kB | 102/189 kBProgress (2): 128/169 kB | 106/189 kBProgress (2): 128/169 kB | 111/189 kBProgress (2): 128/169 kB | 115/189 kBProgress (2): 128/169 kB | 119/189 kBProgress (2): 128/169 kB | 123/189 kBProgress (2): 128/169 kB | 128/189 kBProgress (2): 131/169 kB | 128/189 kBProgress (2): 135/169 kB | 128/189 kBProgress (2): 139/169 kB | 128/189 kBProgress (2): 143/169 kB | 128/189 kBProgress (2): 147/169 kB | 128/189 kBProgress (2): 152/169 kB | 128/189 kBProgress (2): 156/169 kB | 128/189 kBProgress (2): 160/169 kB | 128/189 kBProgress (2): 164/169 kB | 128/189 kBProgress (2): 169/169 kB | 128/189 kBProgress (2): 169 kB | 128/189 kB                                     Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.9.3/junit-platform-launcher-1.9.3.jar (169 kB at 1.6 MB/s)
+Progress (1): 131/189 kBProgress (1): 135/189 kBProgress (1): 139/189 kBProgress (1): 143/189 kBProgress (1): 147/189 kBProgress (1): 152/189 kBProgress (1): 156/189 kBProgress (1): 160/189 kBProgress (1): 164/189 kBProgress (1): 169/189 kBProgress (1): 173/189 kBProgress (1): 177/189 kBProgress (1): 181/189 kBProgress (1): 185/189 kBProgress (1): 189 kB                        Downloaded from central: https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.9.3/junit-platform-engine-1.9.3.jar (189 kB at 1.6 MB/s)
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running iteration2.ui.DepositTest
+[INFO] Running iteration2.ui.UpdateCustomerProfileTest
+[INFO] Running iteration2.api.DepositTest
+[INFO] Running iteration2.api.UpdateCustomerProfileTest
+[INFO] Running iteration2.api.TransferTest
+[INFO] Running iteration1.api.CreateAccountTest
+[INFO] Running iteration1.ui.LoginUserTest
+[INFO] Running iteration1.api.LoginUserTest
+[INFO] Running iteration1.api.CreateUserTest
+[INFO] Running iteration2.ui.TransferTest
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+Thread  ForkJoinPool-1-worker-10: Test started iteration1.api.adminCanGenerateAuthTokenTest()
+Thread  ForkJoinPool-1-worker-10: Test duration 839
+Thread  ForkJoinPool-1-worker-9: Test started iteration1.api.userCanCreateAccountTest()
+Thread  ForkJoinPool-1-worker-9: Test duration 1076
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.160 s -- in iteration1.api.CreateAccountTest
+[INFO] Running iteration1.ui.CreateUserTest
+[INFO] Running iteration1.ui.CreateAccountTest
+Thread  ForkJoinPool-1-worker-10: Test started iteration1.api.userCanGenerateAuthTokenTest()
+Thread  ForkJoinPool-1-worker-10: Test duration 315
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.253 s -- in iteration1.api.LoginUserTest
+Thread  ForkJoinPool-1-worker-17: Test started iteration1.api.[2] ab, Password33$, USER, username, [Username must be between 3 and 15 characters]
+Thread  ForkJoinPool-1-worker-17: Test duration 272
+Thread  ForkJoinPool-1-worker-8: Test started iteration1.api.[1]    , Password33$, USER, username, [Username cannot be blank, Username must contain only letters, digits, dashes, underscores, and dots]
+Thread  ForkJoinPool-1-worker-8: Test duration 1386
+Thread  ForkJoinPool-1-worker-4: Test started iteration2.api.customerCanChangeHisUsernameTest()
+Thread  ForkJoinPool-1-worker-4: Test duration 1498
+Thread  ForkJoinPool-1-worker-17: Test started iteration1.api.[3] abc$, Password33$, USER, username, [Username must contain only letters, digits, dashes, underscores, and dots]
+Thread  ForkJoinPool-1-worker-17: Test duration 181
+Thread  ForkJoinPool-1-worker-8: Test started iteration1.api.[4] abc%, Password33$, USER, username, [Username must contain only letters, digits, dashes, underscores, and dots]
+Thread  ForkJoinPool-1-worker-8: Test duration 185
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.650 s -- in iteration1.api.CreateUserTest
+Thread  ForkJoinPool-1-worker-4: Test started iteration2.api.[1] Kate, Name must contain two words with letters only
+Thread  ForkJoinPool-1-worker-4: Test duration 662
+Thread  ForkJoinPool-1-worker-19: Test started iteration2.api.[2]  , Name must contain two words with letters only
+Thread  ForkJoinPool-1-worker-19: Test duration 600
+Thread  ForkJoinPool-1-worker-15: Test started iteration2.api.[1] 0, Invalid account or amount
+Thread  ForkJoinPool-1-worker-15: Test duration 1257
+Thread  ForkJoinPool-1-worker-8: Test started iteration2.api.[2] -1, Invalid account or amount
+Thread  ForkJoinPool-1-worker-8: Test duration 858
+Thread  ForkJoinPool-1-worker-13: Test started iteration2.api.[3] 5000.01, Deposit amount exceeds the 5000 limit
+Thread  ForkJoinPool-1-worker-13: Test duration 1562
+Thread  ForkJoinPool-1-worker-3: Test started iteration2.api.userCantDepositMoneyOnDifferentUserAccountTest()
+Thread  ForkJoinPool-1-worker-3: Test duration 2552
+Thread  ForkJoinPool-1-worker-2: Test started iteration2.api.[2] 10.0, -1.0, Invalid transfer: insufficient funds or invalid accounts
+Thread  ForkJoinPool-1-worker-2: Test duration 2569
+Thread  ForkJoinPool-1-worker-18: Test started iteration2.api.userCanDepositMoneyOnHisOwnAccountTest()
+Thread  ForkJoinPool-1-worker-18: Test duration 1031
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.670 s -- in iteration2.api.DepositTest
+Thread  ForkJoinPool-1-worker-21: Test started iteration2.api.[3] Kate P!! , Name must contain two words with letters only
+Thread  ForkJoinPool-1-worker-21: Test duration 649
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.887 s -- in iteration2.api.UpdateCustomerProfileTest
+Thread  ForkJoinPool-1-worker-11: Test started iteration2.api.userCanTransferMoneyOnHisOwnAccountTest()
+Thread  ForkJoinPool-1-worker-11: Test duration 2731
+Thread  ForkJoinPool-1-worker-19: Test started iteration2.api.[1] 10.0, 0.0, Invalid transfer: insufficient funds or invalid accounts
+Thread  ForkJoinPool-1-worker-19: Test duration 825
+Thread  ForkJoinPool-1-worker-8: Test started iteration2.api.[3] 10.0, 11.0, Invalid transfer: insufficient funds or invalid accounts
+Thread  ForkJoinPool-1-worker-8: Test duration 731
+Thread  ForkJoinPool-1-worker-20: Test started iteration2.api.userCanTransferMoneyOnAnotherUserAccountTest()
+Thread  ForkJoinPool-1-worker-20: Test duration 1670
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.380 s -- in iteration2.api.TransferTest
+Thread  ForkJoinPool-1-worker-1: Test started iteration1.ui.Admin can login. Admin panel opened. Token saved at local storage
+Thread  ForkJoinPool-1-worker-1: Test duration 5856
+Thread  ForkJoinPool-1-worker-6: Test started iteration2.ui.User can deposit money on his own account and transaction present in transaction
+Thread  ForkJoinPool-1-worker-6: Test duration 1155
+Thread  ForkJoinPool-1-worker-5: Test started iteration2.ui.User can transfer money to another user account
+Thread  ForkJoinPool-1-worker-5: Test duration 1599
+Thread  ForkJoinPool-1-worker-7: Test started iteration2.ui.User can't change his name with name with single word
+Thread  ForkJoinPool-1-worker-7: Test duration 3127
+Thread  ForkJoinPool-1-worker-12: Test started iteration2.ui.User can change his name
+Thread  ForkJoinPool-1-worker-12: Test duration 5695
+[ERROR] Tests run: 5, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 11.79 s <<< FAILURE! -- in iteration2.ui.UpdateCustomerProfileTest
+[ERROR] iteration2.ui.TransferTest.userCanTransferMoneyToAnotherUserAccountTest -- Time elapsed: 7.761 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at iteration2.ui.TransferTest.userCanTransferMoneyToAnotherUserAccountTest(TransferTest.java:136)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.tryRemoveAndExec(ForkJoinPool.java:1351)
+	at java.base/java.util.concurrent.ForkJoinTask.awaitDone(ForkJoinTask.java:422)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:651)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+
+[ERROR] iteration2.ui.UpdateCustomerProfileTest.userCanChangeHisNameTest -- Time elapsed: 11.35 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual:
+  "Welcome, noname!"
+to contain:
+  "StOzRAkYeM QivKLLRuBi" 
+	at iteration2.ui.UpdateCustomerProfileTest.userCanChangeHisNameTest(UpdateCustomerProfileTest.java:29)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+
+Thread  ForkJoinPool-1-worker-14: Test started iteration2.ui.User can't deposit 0 or -1 amount of money on deposit
+Thread  ForkJoinPool-1-worker-14: Test duration 846
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 46.24 s -- in iteration2.ui.DepositTest
+Thread  ForkJoinPool-1-worker-16: Test started iteration1.ui.Authorized user can create an account. User dashboard opened. User create anew account. Positive alert. API return an account
+Thread  ForkJoinPool-1-worker-16: Test duration 531
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 70.68 s -- in iteration1.ui.CreateAccountTest
+Thread  ForkJoinPool-1-worker-9: Test started iteration1.ui.Admin user can create new user with correct data. Positive alert. User added in user list on UI. API return all users
+Thread  ForkJoinPool-1-worker-9: Test duration 3615
+Thread  ForkJoinPool-1-worker-17: Test started iteration1.ui.Admin can't create new user with incorrect data. Negative alert. User not added in user list on UI. API return all users without wrong one
+Thread  ForkJoinPool-1-worker-17: Test duration 1639
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 72.40 s -- in iteration1.ui.CreateUserTest
+Thread  ForkJoinPool-1-worker-10: Test started iteration1.ui.User can login. User panel opened. Token saved at local storage
+Thread  ForkJoinPool-1-worker-10: Test duration 74912
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 76.18 s -- in iteration1.ui.LoginUserTest
+[ERROR] Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 92.78 s <<< FAILURE! -- in iteration2.ui.TransferTest
+[ERROR] iteration2.ui.TransferTest.userCantTransferMoreThanCurrentDepositTest -- Time elapsed: 90.31 s <<< ERROR!
+org.openqa.selenium.SessionNotCreatedException: 
+Could not start a new session. Possible causes are invalid address of the remote server or browser start-up failure. 
+Host info: host: 'e81359e2a3f1', ip: '172.17.0.2'
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:563)
+	at org.openqa.selenium.remote.RemoteWebDriver.startSession(RemoteWebDriver.java:245)
+	at org.openqa.selenium.remote.RemoteWebDriver.<init>(RemoteWebDriver.java:174)
+	at com.codeborne.selenide.webdriver.RemoteDriverFactory.create(RemoteDriverFactory.java:22)
+	at com.codeborne.selenide.webdriver.WebDriverFactory.createWebDriverInstance(WebDriverFactory.java:102)
+	at com.codeborne.selenide.webdriver.WebDriverFactory.createWebDriver(WebDriverFactory.java:59)
+	at com.codeborne.selenide.drivercommands.CreateDriverCommand.lambda$createDriver$0(CreateDriverCommand.java:68)
+	at com.codeborne.selenide.logevents.SelenideLogger.wrap(SelenideLogger.java:128)
+	at com.codeborne.selenide.logevents.SelenideLogger.get(SelenideLogger.java:106)
+	at com.codeborne.selenide.drivercommands.CreateDriverCommand.createDriver(CreateDriverCommand.java:44)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.createDriver(WebDriverThreadLocalContainer.java:181)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.createDriver(WebDriverThreadLocalContainer.java:177)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.createAndRegisterDriver(WebDriverThreadLocalContainer.java:164)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.getAndCheckWebDriver(WebDriverThreadLocalContainer.java:130)
+	at com.codeborne.selenide.WebDriverRunner.getAndCheckWebDriver(WebDriverRunner.java:99)
+	at com.codeborne.selenide.StaticDriver.getAndCheckWebDriver(StaticDriver.java:41)
+	at com.codeborne.selenide.SelenideDriver.getAndCheckWebDriver(SelenideDriver.java:183)
+	at com.codeborne.selenide.drivercommands.Navigator.lambda$navigateTo$0(Navigator.java:67)
+	at com.codeborne.selenide.logevents.SelenideLogger.lambda$run$0(SelenideLogger.java:99)
+	at com.codeborne.selenide.logevents.SelenideLogger.wrap(SelenideLogger.java:128)
+	at com.codeborne.selenide.logevents.SelenideLogger.run(SelenideLogger.java:98)
+	at com.codeborne.selenide.drivercommands.Navigator.navigateTo(Navigator.java:65)
+	at com.codeborne.selenide.drivercommands.Navigator.open(Navigator.java:29)
+	at com.codeborne.selenide.SelenideDriver.open(SelenideDriver.java:86)
+	at com.codeborne.selenide.Selenide.open(Selenide.java:50)
+	at ui.pages.BasePage.authAsUther(BasePage.java:42)
+	at ui.pages.BasePage.authAsUther(BasePage.java:48)
+	at common.extensions.UserSessionExtension.beforeEach(UserSessionExtension.java:32)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: org.openqa.selenium.TimeoutException: java.util.concurrent.TimeoutException
+Build info: version: '4.31.0', revision: '1ef9f18787*'
+System info: os.name: 'Linux', os.arch: 'aarch64', os.version: '6.10.14-linuxkit', java.version: '21.0.7'
+Driver info: driver.version: SelenideDriver
+	at org.openqa.selenium.remote.http.jdk.JdkHttpClient.execute(JdkHttpClient.java:424)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:89)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:75)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:61)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:187)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:545)
+	... 33 more
+Caused by: java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.CompletableFuture$Timeout.run(CompletableFuture.java:2920)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[ERROR] iteration2.ui.TransferTest.userCanTransferMoneyBetweenHisOwnAccountsTest -- Time elapsed: 90.26 s <<< ERROR!
+org.openqa.selenium.SessionNotCreatedException: 
+Could not start a new session. Possible causes are invalid address of the remote server or browser start-up failure. 
+Host info: host: 'e81359e2a3f1', ip: '172.17.0.2'
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:563)
+	at org.openqa.selenium.remote.RemoteWebDriver.startSession(RemoteWebDriver.java:245)
+	at org.openqa.selenium.remote.RemoteWebDriver.<init>(RemoteWebDriver.java:174)
+	at com.codeborne.selenide.webdriver.RemoteDriverFactory.create(RemoteDriverFactory.java:22)
+	at com.codeborne.selenide.webdriver.WebDriverFactory.createWebDriverInstance(WebDriverFactory.java:102)
+	at com.codeborne.selenide.webdriver.WebDriverFactory.createWebDriver(WebDriverFactory.java:59)
+	at com.codeborne.selenide.drivercommands.CreateDriverCommand.lambda$createDriver$0(CreateDriverCommand.java:68)
+	at com.codeborne.selenide.logevents.SelenideLogger.wrap(SelenideLogger.java:128)
+	at com.codeborne.selenide.logevents.SelenideLogger.get(SelenideLogger.java:106)
+	at com.codeborne.selenide.drivercommands.CreateDriverCommand.createDriver(CreateDriverCommand.java:44)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.createDriver(WebDriverThreadLocalContainer.java:181)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.createDriver(WebDriverThreadLocalContainer.java:177)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.createAndRegisterDriver(WebDriverThreadLocalContainer.java:164)
+	at com.codeborne.selenide.WebDriverThreadLocalContainer.getAndCheckWebDriver(WebDriverThreadLocalContainer.java:130)
+	at com.codeborne.selenide.WebDriverRunner.getAndCheckWebDriver(WebDriverRunner.java:99)
+	at com.codeborne.selenide.StaticDriver.getAndCheckWebDriver(StaticDriver.java:41)
+	at com.codeborne.selenide.SelenideDriver.getAndCheckWebDriver(SelenideDriver.java:183)
+	at com.codeborne.selenide.drivercommands.Navigator.lambda$navigateTo$0(Navigator.java:67)
+	at com.codeborne.selenide.logevents.SelenideLogger.lambda$run$0(SelenideLogger.java:99)
+	at com.codeborne.selenide.logevents.SelenideLogger.wrap(SelenideLogger.java:128)
+	at com.codeborne.selenide.logevents.SelenideLogger.run(SelenideLogger.java:98)
+	at com.codeborne.selenide.drivercommands.Navigator.navigateTo(Navigator.java:65)
+	at com.codeborne.selenide.drivercommands.Navigator.open(Navigator.java:29)
+	at com.codeborne.selenide.SelenideDriver.open(SelenideDriver.java:86)
+	at com.codeborne.selenide.Selenide.open(Selenide.java:50)
+	at ui.pages.BasePage.authAsUther(BasePage.java:42)
+	at ui.pages.BasePage.authAsUther(BasePage.java:48)
+	at common.extensions.UserSessionExtension.beforeEach(UserSessionExtension.java:32)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: org.openqa.selenium.TimeoutException: java.util.concurrent.TimeoutException
+Build info: version: '4.31.0', revision: '1ef9f18787*'
+System info: os.name: 'Linux', os.arch: 'aarch64', os.version: '6.10.14-linuxkit', java.version: '21.0.7'
+Driver info: driver.version: SelenideDriver
+	at org.openqa.selenium.remote.http.jdk.JdkHttpClient.execute(JdkHttpClient.java:424)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:89)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:75)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:61)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:187)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:545)
+	... 33 more
+Caused by: java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.CompletableFuture$Timeout.run(CompletableFuture.java:2920)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   TransferTest.userCanTransferMoneyToAnotherUserAccountTest:136 expected: <true> but was: <false>
+[ERROR]   UpdateCustomerProfileTest.userCanChangeHisNameTest:29 
+Expecting actual:
+  "Welcome, noname!"
+to contain:
+  "StOzRAkYeM QivKLLRuBi" 
+[ERROR] Errors: 
+[ERROR]   TransferTest.userCanTransferMoneyBetweenHisOwnAccountsTest » SessionNotCreated Could not start a new session. Possible causes are invalid address of the remote server or browser start-up failure. 
+Host info: host: 'e81359e2a3f1', ip: '172.17.0.2'
+[ERROR]   TransferTest.userCantTransferMoreThanCurrentDepositTest » SessionNotCreated Could not start a new session. Possible causes are invalid address of the remote server or browser start-up failure. 
+Host info: host: 'e81359e2a3f1', ip: '172.17.0.2'
+[INFO] 
+[ERROR] Tests run: 33, Failures: 2, Errors: 2, Skipped: 0
+[INFO] 
+[INFO] MBTP: Session Ended
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:35 min
+[INFO] Finished at: 2025-11-26T00:26:33Z
+[INFO] ------------------------------------------------------------------------
+[INFO] --             Maven Build Time Profiler Summary                      --
+[INFO] ------------------------------------------------------------------------
+[INFO] Project discovery time:       10 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] Project Build Time (reactor order):
+[INFO] 
+[INFO] nbank-tests:
+[INFO]           62 ms : process-resources
+[INFO]          782 ms : compile
+[INFO]            4 ms : process-test-resources
+[INFO]          235 ms : test-compile
+[INFO]        94114 ms : test
+[INFO] ------------------------------------------------------------------------
+[INFO] Lifecycle Phase summary:
+[INFO] 
+[INFO]       62 ms : process-resources
+[INFO]      782 ms : compile
+[INFO]        4 ms : process-test-resources
+[INFO]      235 ms : test-compile
+[INFO]    94114 ms : test
+[INFO] ------------------------------------------------------------------------
+[INFO] Plugins in lifecycle Phases:
+[INFO] 
+[INFO] process-resources:
+[INFO]       62 ms: org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[INFO] compile:
+[INFO]      782 ms: org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile)
+[INFO] process-test-resources:
+[INFO]        4 ms: org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[INFO] test-compile:
+[INFO]      235 ms: org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile)
+[INFO] test:
+[INFO]    94114 ms: org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test)
+[INFO] 
+[INFO]    95197 ms plugins execution summary.
+[INFO] ------------------------------------------------------------------------
+[INFO] Artifact Download summary:
+[INFO]       41 ms : org.opentest4j:opentest4j:1.2.0:pom (1,683 bytes)
+[INFO]       53 ms : org.apache.maven.surefire:surefire-junit-platform:3.2.5:pom (4,665 bytes)
+[INFO]       40 ms : org.junit.platform:junit-platform-engine:1.9.3:pom (3,202 bytes)
+[INFO]       44 ms : org.apache.maven.surefire:common-java5:3.2.5:pom (2,814 bytes)
+[INFO]      163 ms : org.junit.platform:junit-platform-launcher:1.9.3:jar (169,237 bytes)
+[INFO]       40 ms : org.junit.platform:junit-platform-commons:1.9.3:pom (2,831 bytes)
+[INFO]       39 ms : org.apache.maven.surefire:surefire-providers:3.2.5:pom (2,611 bytes)
+[INFO]      164 ms : org.opentest4j:opentest4j:1.2.0:jar (7,653 bytes)
+[INFO]      163 ms : org.apache.maven.surefire:surefire-junit-platform:3.2.5:jar (27,152 bytes)
+[INFO]       44 ms : org.junit.platform:junit-platform-launcher:1.9.3:pom (3,026 bytes)
+[INFO]      164 ms : org.junit.platform:junit-platform-engine:1.9.3:jar (189,226 bytes)
+[INFO]      164 ms : org.junit.platform:junit-platform-commons:1.9.3:jar (102,989 bytes)
+[INFO]      163 ms : org.apache.maven.surefire:common-java5:3.2.5:jar (17,555 bytes)
+[INFO] 
+[INFO] 1,282 ms  534,644 bytes. 0.398 MiB / s
+[INFO] ForkTime: 0
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project nbank-tests: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /app/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+>>> Running surefire-report:report
+[INFO] Maven Build Time Profiler started. (Version 0.5.0)
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for me.nobugs:nbank-tests:jar:1.0-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.assertj:assertj-core:jar -> version 3.27.3 vs 3.25.3 @ line 68, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -----------------------< me.nobugs:nbank-tests >------------------------
+[INFO] Building nbank-tests 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> surefire-report:3.2.5:report (default-cli) > [surefire]test @ nbank-tests >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ nbank-tests ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ nbank-tests ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ nbank-tests ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ nbank-tests ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ nbank-tests ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] <<< surefire-report:3.2.5:report (default-cli) < [surefire]test @ nbank-tests <<<
+[INFO] 
+[INFO] 
+[INFO] --- surefire-report:3.2.5:report (default-cli) @ nbank-tests ---
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/skins/maven-default-skin/1.3/maven-default-skin-1.3.jar
+Progress (1): 0.9/14 kBProgress (1): 2.3/14 kBProgress (1): 3.6/14 kBProgress (1): 5.0/14 kBProgress (1): 6.4/14 kBProgress (1): 7.7/14 kBProgress (1): 9.1/14 kBProgress (1): 10/14 kB Progress (1): 12/14 kBProgress (1): 13/14 kBProgress (1): 14 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/skins/maven-default-skin/1.3/maven-default-skin-1.3.jar (14 kB at 71 kB/s)
+[INFO] Rendering content with org.apache.maven.skins:maven-default-skin:jar:1.3 skin.
+[WARNING] Unable to locate Test Source XRef to link to - DISABLED
+[INFO] MBTP: Session Ended
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.855 s
+[INFO] Finished at: 2025-11-26T00:26:35Z
+[INFO] ------------------------------------------------------------------------
+[INFO] --             Maven Build Time Profiler Summary                      --
+[INFO] ------------------------------------------------------------------------
+[INFO] Project discovery time:       13 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] Project Build Time (reactor order):
+[INFO] 
+[INFO] nbank-tests:
+[INFO]           66 ms : process-resources
+[INFO]           49 ms : compile
+[INFO]            2 ms : process-test-resources
+[INFO]            8 ms : test-compile
+[INFO]           67 ms : test
+[INFO] ------------------------------------------------------------------------
+[INFO] Lifecycle Phase summary:
+[INFO] 
+[INFO]       66 ms : process-resources
+[INFO]       49 ms : compile
+[INFO]        2 ms : process-test-resources
+[INFO]        8 ms : test-compile
+[INFO]       67 ms : test
+[INFO] ------------------------------------------------------------------------
+[INFO] Plugins in lifecycle Phases:
+[INFO] 
+[INFO] process-resources:
+[INFO]       66 ms: org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[INFO] compile:
+[INFO]       49 ms: org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile)
+[INFO] process-test-resources:
+[INFO]        2 ms: org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[INFO] test-compile:
+[INFO]        8 ms: org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile)
+[INFO] test:
+[INFO]       67 ms: org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test)
+[INFO] 
+[INFO]      192 ms plugins execution summary.
+[INFO] ------------------------------------------------------------------------
+[INFO] Plugins directly called via goals:
+[INFO] 
+[INFO]      482 ms : org.apache.maven.plugins:maven-surefire-report-plugin:3.2.5:report (default-cli)
+[INFO] ------------------------------------------------------------------------
+[INFO] Artifact Download summary:
+[INFO]      264 ms : org.apache.maven.skins:maven-default-skin:1.3:jar (13,779 bytes)
+[INFO] 
+[INFO] 264 ms  13,779 bytes. 0.05 MiB / s
+[INFO] ForkTime: 316
+[INFO] ProjectTimer: me.nobugs:nbank-tests:jar:1.0-SNAPSHOT : 316

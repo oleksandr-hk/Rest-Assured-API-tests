@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: iteration1.ui.CreateAccountTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 70.47 s <<< FAILURE! -- in iteration1.ui.CreateAccountTest
+iteration1.ui.CreateAccountTest.userCanCreateAccountTest -- Time elapsed: 70.47 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expected size: 1 but was: 2 in:
+[CreateAccountResponse(id=22, accountNumber=ACC22, balance=0.0, transactions=[]),
+    CreateAccountResponse(id=21, accountNumber=ACC21, balance=0.0, transactions=[])]
+	at iteration1.ui.CreateAccountTest.userCanCreateAccountTest(CreateAccountTest.java:30)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+

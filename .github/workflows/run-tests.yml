@@ -1,0 +1,30 @@
+name: Run tests
+
+#trigger
+on: [push, workflow_dispatch]
+
+#Workflow definition
+jobs:
+  run-tests:
+    name: Set up services and run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository #download code to runner
+        uses: actions/checkout@v4
+
+      - name: Set up JDK #setup java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Cache Maven repository # cache maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{runner.os}}--maven-${{ hashFiles('**/pom.xml')}}
+          restore-keys:
+            ${{ runner.os }}--maven-
+
+      - name: Set up services
+        run: bash infra/docker_compose/restart_docker.sh

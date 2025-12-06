@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: iteration1.ui.LoginUserTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 76.18 s -- in iteration1.ui.LoginUserTest
