@@ -26,5 +26,11 @@ jobs:
           restore-keys:
             ${{ runner.os }}--maven-
 
-      - name: Set up services
-        run: bash infra/docker_compose/restart_docker.sh
+      - name: Set up services # run docker compose
+        run: cd infra/docker_compose && bash restart_docker.sh cd../..
+
+      - name: Runt tests
+        run: ./mvnw clean test -q
+        env:
+          APIBASEURL: http://localhost:4111
+          UIBASEURL: http://frontend

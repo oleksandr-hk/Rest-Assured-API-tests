@@ -1,29 +1,17 @@
 services:
   backend:
-    image: nobugsme/nbank:with_validation_fix
+    image: nobugsme/nbank:with_username_error_fix
     ports:
       - "4111:4111"
     networks:
       - nbank-network
 
   frontend:
-    image: nobugsme/nbank-ui:latest
-    expose:
-      - "80"
-    depends_on:
-      - backend
-    networks:
-      - nbank-network
-
-  nginx:
-    image: nginx:latest
+    image: nobugsme/nbank-ui:with_nginx
     ports:
-      - "80:80"
-    volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - "3000:80"
     depends_on:
       - backend
-      - frontend
     networks:
       - nbank-network
 
@@ -34,7 +22,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/:/etc/selenoid/:ro
-    command: ["-container-network", "nbank-network"]
+    command: [ "-container-network", "nbank-network" ]
     depends_on:
       - frontend
     networks:
@@ -43,12 +31,13 @@ services:
   selenoid-ui:
     image: aerokube/selenoid-ui:latest
     ports:
-      - "6567:8080"
-    command: ["--selenoid-uri", "http://selenoid:4444"]
+      - "8080:8080"
+    command: [ "--selenoid-uri", "http://selenoid:4444" ]
     depends_on:
       - selenoid
-
+    networks:
+      - nbank-network
 
 networks:
-    nbank-network:
-      name: nbank-network
+  nbank-network:
+    name: nbank-network
