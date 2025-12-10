@@ -2,6 +2,8 @@ name: Send image to docker hub
 
 on:
   push:
+    branches:
+      - feature-ci/added-check-style-plugin
     paths:
       - 'src/**'
   workflow_dispatch:
@@ -23,6 +25,14 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: '21'
+
+      - name: Cache Maven repository # cache maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{runner.os}}--maven-${{ hashFiles('**/pom.xml')}}
+          restore-keys:
+            ${{ runner.os }}--maven-
 
       - name: Build project
         run: mvn clean install -Dmaven.test.skip=true
