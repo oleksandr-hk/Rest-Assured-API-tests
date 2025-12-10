@@ -3,9 +3,7 @@ package iteration2.ui;
 import api.generators.RandomData;
 import api.models.CreateAccountResponse;
 import api.models.CreateUserRequest;
-import api.models.CreateUserResponse;
 import api.models.LoginUserRequest;
-import api.requests.steps.AdminSteps;
 
 import common.annotations.UserSession;
 import common.storage.SessionStorage;
