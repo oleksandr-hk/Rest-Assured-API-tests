@@ -1,9 +1,9 @@
-name: Send image to docker hub
+name: Check style and send image to docker hub
 
 on:
   push:
-    branches:
-      - feature-ci/added-check-style-plugin
+    paths:
+      - 'src/**'
   workflow_dispatch:
 
 env:
@@ -32,7 +32,7 @@ jobs:
           restore-keys:
             ${{ runner.os }}--maven-
 
-      - name: Build project  #build project and skip tst execution
+      - name: Build project  #build project and skip tests execution
         run: mvn clean install -Dmaven.test.skip=true
 
       - name: Log in to Docker Hub #login to docker hub
@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Push Docker image #push to docker hub
+      - name: Build & Push Docker image #push image to docker hub using secrets from GH repo
         uses: docker/build-push-action@v5
         with:
           context: .
