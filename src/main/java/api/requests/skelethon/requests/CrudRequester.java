@@ -5,6 +5,8 @@ import api.requests.skelethon.EndPoint;
 import api.requests.skelethon.HttpRequest;
 import api.requests.skelethon.interfaces.CrudEndPointInterface;
 import api.requests.skelethon.interfaces.ReadableAlInterface;
+import common.helpers.StepLogger;
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -19,17 +21,20 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
 
     @Override
     public ValidatableResponse post(BaseModel model) {
-        var body = model == null ? "" : model;
-        return given()
-                .spec(requestSpecification)
-                .body(body)
-                .post(endPoint.getUrl())
-                .then()
-                .assertThat()
-                .spec(responseSpecification);
+        return StepLogger.log("Post request to " + endPoint.getUrl(), () -> {
+            var body = model == null ? "" : model;
+            return given()
+                    .spec(requestSpecification)
+                    .body(body)
+                    .post(endPoint.getUrl())
+                    .then()
+                    .assertThat()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
+    @Step("Get request to endpoint {endpoint} with id {id}")
     public ValidatableResponse get(long  id) {
         return given()
                 .spec(requestSpecification)
@@ -40,6 +45,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("Get request to endpoint {endpoint}")
     public ValidatableResponse get() {
         return given()
                 .spec(requestSpecification)
@@ -50,6 +56,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("Get request to endpoint {endpoint} with id {id}")
     public ValidatableResponse getAllById(long id) {
         return given()
                 .spec(requestSpecification)
@@ -61,6 +68,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("Get all request to endpoint {endpoint}")
     public ValidatableResponse getAll(Class<?> clazz) {
         return given()
                 .when()
@@ -72,6 +80,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("Put request to endpoint {endpoint} with body {model}")
     public ValidatableResponse update(BaseModel model) {
         return given()
                 .spec(requestSpecification)
@@ -83,6 +92,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("Delete request to endpoint {endpoint} with id {id}")
     public ValidatableResponse delete(long id) {
         return given()
                 .spec(requestSpecification)
