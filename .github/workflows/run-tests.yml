@@ -37,7 +37,7 @@ jobs:
 
       - name: Run swagger coverage # build swagger API coverage report
         if: always()
-        run: .swagger-coverage-commandline-1.5.0/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
+        run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
 
       - name: Load test report history #load previous test execution runs data from GH pages
         uses: actions/checkout@v2
