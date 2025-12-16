@@ -60,7 +60,7 @@ jobs:
 
       - name: Build Swagger coverage report  # copy swagger API coverage report to allure history
         if: always()
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }} # uniqu
+        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }} # unique identifier for each execution
 
       - name: Publish test report
         uses: peaceiris/actions-gh-pages@v3
