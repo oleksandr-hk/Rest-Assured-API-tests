@@ -34,3 +34,44 @@ jobs:
         env:
           APIBASEURL: http://localhost:4111
           UIBASEURL: http://frontend
+
+      - name: Run swagger coverage # build swagger API coverage report
+        if: always()
+        run: .swagger-coverage-commandline-1.5.0/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
+
+      - name: Load test report history #load previous test execution runs data from GH pages
+        uses: actions/checkout@v2
+        if: always()
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Build test report  # build allure report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          gh_pages: gh-pages
+          allure_results: 'target/allure-results'
+          allure_history: 'allure-history'
+
+      - name: Build Swagger coverage report  # copy swagger API coverage report to allure history
+        if: always()
+        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }} # unique identifier for each execution
+
+      - name: Build Swagger coverage report  # copy swagger API coverage report to allure history
+        if: always()
+        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }} # uniqu
+
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure_history
+
+      - name: Clean up services # shut down env
+        if: always()
+        run: docker compose down
+
+
