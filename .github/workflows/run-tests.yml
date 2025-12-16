@@ -37,7 +37,6 @@ jobs:
 
       - name: Run swagger coverage # build swagger API coverage report
         if: always()
-        run: mkdir -p target/swagger-coverage-output
         run: .swagger-coverage-commandline/bin/swagger-coverage-commandline -s http://localhost:4111/v3/api-docs -i target/swagger-coverage-output
 
       - name: Load test report history #load previous test execution runs data from GH pages
@@ -48,7 +47,7 @@ jobs:
           path: gh-pages
 
       - name: Build test report  # build allure report
-        uses: simple-elf/allure-report-action@v1.7
+        uses: simple-elf/allure-report-action@v1.13
         if: always()
         with:
           gh_pages: gh-pages
