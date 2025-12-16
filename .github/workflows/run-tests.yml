@@ -72,6 +72,6 @@ jobs:
 
       - name: Clean up services # shut down env
         if: always()
-        run: docker compose down
+        run: cd infra/docker_compose && docker compose down
 
 
