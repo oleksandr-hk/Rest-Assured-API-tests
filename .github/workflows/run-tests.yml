@@ -44,20 +44,16 @@ jobs:
         continue-on-error: true
         if: always()
         with:
-          ref: gh-pages
-          path: gh-pages
+          ref: gh-pages # branch for the GitHub Pages content
+          path: gh-pages # an arbitrary name for a directory to which the previous data will be saved.
 
-      - name: Build test report  # build allure report
+      - name: Build test report  # build allure report(including previous executions)
         uses: simple-elf/allure-report-action@v1.13
         if: always()
         with:
-          gh_pages: gh-pages
-          allure_results: 'target/allure-results'
-          allure_history: 'allure-history'
-
-      - name: Build Swagger coverage report  # copy swagger API coverage report to allure history
-        if: always()
-        run: sudo cp swagger-coverage-report.html allure-history/${{ github.run_number }} # unique identifier for each execution
+          gh_pages: gh-pages # the directory name to which the previous data was downloaded. Must be the same as the path value from
+          allure_results: target/allure-results # path to the current test results directory. From allure properties
+          allure_history: allure-history # name for directory to which the result will be saved
 
       - name: Build Swagger coverage report  # copy swagger API coverage report to allure history
         if: always()
