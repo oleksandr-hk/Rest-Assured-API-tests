@@ -65,7 +65,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure_history
+          publish_dir: allure-history
 
       - name: Clean up services # shut down env
         if: always()
