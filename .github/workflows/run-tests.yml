@@ -79,6 +79,7 @@ jobs:
           force: 'true'
 
       - name: Verify jq
+        if: always()
         run: jq --version
 
       - name: Check API coverage
