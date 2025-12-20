@@ -19,7 +19,7 @@ public class UserSteps {
     }
 
     public List<CreateAccountResponse> getAllAccounts() {
-        return StepLogger.log("User " + username + "get all acoounts", () -> {
+        return StepLogger.log("User " + username + " get all accounts", () -> {
             return new ValidatedCrudRequester<CreateAccountResponse>(
                     RequestSpecs.authAsUser(this.username, this.password),
                     ResponseSpecs.requestReturnsOk(),

@@ -16,7 +16,7 @@ public class AdminSteps {
     public static CreateUserRequest createUser() {
         //generate user data
         CreateUserRequest userRequest = RandomModelGenerator.generate(CreateUserRequest.class);
-        return StepLogger.log("Admin creates user" + userRequest.getUsername(), () -> {
+        return StepLogger.log("Admin creates user " + userRequest.getUsername(), () -> {
             //create user with previously generated data
             new ValidatedCrudRequester<CreateUserResponse>(
                     RequestSpecs.adminSpec(),

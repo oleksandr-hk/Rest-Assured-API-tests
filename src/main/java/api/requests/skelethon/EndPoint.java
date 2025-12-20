@@ -13,6 +13,11 @@ public enum EndPoint {
             CreateUserRequest.class,
             CreateUserResponse.class
     ),
+    ADMIN_DELETE_USER(
+            "/admin/users",
+            BaseModel.class,
+            DeleteUserResponse.class
+    ),
     ACCOUNTS(
             "/accounts",
             BaseModel.class,

@@ -45,4 +45,10 @@ public class ResponseSpecs {
                 .expectStatusCode(HttpStatus.SC_FORBIDDEN)
                 .build();
     }
+
+    public static ResponseSpecification entityNotFound() {
+        return defaultResponseSpecBuilder()
+                .expectStatusCode(HttpStatus.SC_NOT_FOUND)
+                .build();
+    }
 }

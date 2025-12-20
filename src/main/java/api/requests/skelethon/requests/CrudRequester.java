@@ -38,9 +38,10 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
 
     @Override
     @Step("Get request to endpoint {endpoint} with id {id}")
-    public ValidatableResponse get(long  id) {
+    public ValidatableResponse get(long id) {
         return given()
                 .spec(requestSpecification)
+                .pathParams("id", id)
                 .get(API_VERSION + endPoint.getUrl())
                 .then()
                 .assertThat()

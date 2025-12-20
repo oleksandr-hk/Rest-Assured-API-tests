@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 public class CreateUserTest extends BaseTest {
 
+    @Test
     public void adminCanCreateUserWithCorrectData() {
         CreateUserRequest createUserRequest =
                 RandomModelGenerator.generate(CreateUserRequest.class);
