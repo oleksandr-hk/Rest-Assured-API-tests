@@ -71,13 +71,15 @@ jobs:
         if: always()
         run: cd infra/docker_compose && docker compose down
 
-      - name: Setup jq
+      - name: Setup JQ
+        if: always()
         uses: dcarbone/install-jq-action@v3
         with:
           version: '1.8'
           force: 'true'
 
       - name: Check API coverage
+        if: always()
         run: .github/workflows/check-coverage.sh
 
 
