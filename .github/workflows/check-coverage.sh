@@ -4,6 +4,8 @@ set -euo pipefail
 required_coverage=30
 report_file="swagger-coverage-results.json"
 
+echo "Список файлів у поточній директорії: $(ls -l)"
+
 coverage=$(jq -r '
   (.coverageOperationMap.counter.full / .coverageOperationMap.counter.all) * 100
 ' "$report_file")
