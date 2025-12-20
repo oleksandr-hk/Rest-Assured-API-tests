@@ -80,6 +80,6 @@ jobs:
 
       - name: Check API coverage
         if: always()
-        run: .github/workflows/check-coverage.sh
+        run: bash .github/workflows/check-coverage.sh
 
 

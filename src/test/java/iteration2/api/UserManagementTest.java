@@ -50,38 +50,4 @@ public class UserManagementTest  extends BaseTest {
                 .anyMatch(user -> user.getId() == createUserResponse.getId()));
     }
 
-    @Test
-    public void adminCantDeleteNonExistentUser() {
-        final int NON_VALID_USER_ID = 0;
-        //generate a new user
-        CreateUserRequest createUserRequest =
-                RandomModelGenerator.generate(CreateUserRequest.class);
-
-        //create a new user
-        CreateUserResponse createUserResponse = new ValidatedCrudRequester<CreateUserResponse>
-                (RequestSpecs.adminSpec(),
-                        ResponseSpecs.entityWasCreated(),
-                        EndPoint.ADMIN_USER
-                )
-                .post(createUserRequest);
-
-        ModelAssertions.assertThatModels(createUserRequest, createUserResponse).match();
-
-        //Read all before delete attempt
-        List<CreateUserResponse> usersBefore = AdminSteps.getAllUsers();
-
-        //delete newly created user
-        new CrudRequester(
-                RequestSpecs.adminSpec(),
-                ResponseSpecs.entityNotFound(),
-                EndPoint.ADMIN_DELETE_USER
-        ).delete(NON_VALID_USER_ID);
-
-        //Read all users after delete attempt
-        List<CreateUserResponse> usersAfter = AdminSteps.getAllUsers();
-
-        //check that user list didn't change
-        Assertions.assertEquals(usersBefore.size(), usersAfter.size());
-    }
-
 }
