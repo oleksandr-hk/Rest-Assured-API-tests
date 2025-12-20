@@ -78,6 +78,9 @@ jobs:
           version: '1.8'
           force: 'true'
 
+      - name: Verify jq
+        run: jq --version
+
       - name: Check API coverage
         if: always()
         run: bash .github/workflows/check-coverage.sh
