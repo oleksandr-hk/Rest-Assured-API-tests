@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend #kubectl get deployment backend
+spec:
+  replicas: 1 # requeried amount of pod copies
+  selector:
+    matchLabels:
+      app: backend # wire deployment and pod
+  template:
+    metadata:
+      labels:
+        app: backend # install label on Pod
+      annotations:
+        co.elastic.logs/enabled: "true"
+        co.elastic.logs/module: springboot
+        co.elastic.logs/json.keys_under_root: "true"
+        co.elastic.logs/json.add_error_key: "true"
+    spec:
+      containers:
+        - name: backend
+          image: nobugsme/nbank:with_validation_fix
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4111
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  selector:
+    app: backend #service point traffic to pods where we have app=backend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 4111 # port where service is working
+      targetPort: 4111
+      nodePort: 31934 # port to access from outside
+  type: NodePort #ClusterIP (only inside cluster)
+
+# schema:
+# [browser or test]
+# |
+# [NodePort 4111]
+# |
+# [Service port 4111]
+# |
+# [Pod / Container port 4111]
+# |
+#nobugsme/nbank:with_validation_fix
